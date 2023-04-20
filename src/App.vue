@@ -9,6 +9,7 @@
           </p>
           <p class="mt-6 text-lg leading-8 text-gray-600">
             Sign up today to experience the power of our school management system. 
+            
           </p>
           <div class="mt-10 flex items-center justify-center gap-x-6">
             <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm
