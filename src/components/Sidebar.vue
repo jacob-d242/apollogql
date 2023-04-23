@@ -7,7 +7,7 @@
 
 		<h3>Menu</h3>
 		<div class="menu">
-			<router-link to="/" class="button">
+			<router-link to="/dashboard" class="button">
 				<span><Icon icon="material-symbols:home-outline" width="20" /></span>
 				<span class="text">Home</span>
 			</router-link>

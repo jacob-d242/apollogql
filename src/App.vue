@@ -1,8 +1,7 @@
 <template>
 	<div class="app">
 		<!-- Sidebar -->
-		<Sidebar />
-		
+		<!-- <HomeScreen/>	 -->
 
 		<!-- Content -->
 		<router-view />
@@ -10,6 +9,7 @@
 </template>
 
 <script setup>
+// import HomeScreen from './views/HomeScreen.vue'
 import Sidebar from './components/Sidebar.vue'
 </script>
 
