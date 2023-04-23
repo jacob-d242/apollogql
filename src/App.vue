@@ -2,6 +2,7 @@
 	<div class="app">
 		<!-- Sidebar -->
 		<Sidebar />
+		
 
 		<!-- Content -->
 		<router-view />

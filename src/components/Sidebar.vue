@@ -1,4 +1,5 @@
 <template>
+	
 	<aside :class="`${is_expanded ? 'is-expanded' : ''}`">
 		<div class="logo">
 			<img :src="logoURL" alt="Vue" /> 
@@ -13,20 +14,20 @@
 		<h3>Menu</h3>
 		<div class="menu">
 			<router-link to="/" class="button">
-				<span class="material-icons">home</span>
+				<span><Icon icon="material-symbols:home-outline" width="30" /></span>
 				<span class="text">Home</span>
 			</router-link>
 			<router-link to="/about" class="button">
-				<span class="material-icons">description</span>
-				<span class="text">About</span>
+				<span ><Icon icon="mdi:user-group-outline" width="28" /></span>
+				<span class="text">Parents</span>
 			</router-link>
 			<router-link to="/profiles" class="button">
-				<span class="material-icons">group</span>
-				<span class="text">Team</span>
+				<span ><Icon icon="system-uicons:files-stack" width="28" /></span>
+				<span class="text">Students</span>
 			</router-link>
-			<router-link to="/contact" class="button">
-				<span class="material-icons">email</span>
-				<span class="text">Contact</span>
+			<router-link to="/add" class="button">
+				<span ><Icon icon="mingcute:user-add-line" width="28" /></span>
+				<span class="text">Profiles</span>
 			</router-link>
 		</div>
 
@@ -34,8 +35,8 @@
 		
 		<div class="menu">
 			<router-link to="/settings" class="button">
-				<span class="material-icons">settings</span>
-				<span class="text">Settings</span>
+				<span ><Icon icon="mdi:user-circle-outline" width="28" /></span>
+				<span class="text">Profile</span>
 			</router-link>
 		</div>
 	</aside>
@@ -44,7 +45,7 @@
 <script setup>
 import { ref } from 'vue'
 import logoURL from '../assets/qhala.png'
-
+import { Icon } from '@iconify/vue';
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
 
 const ToggleMenu = () => {
