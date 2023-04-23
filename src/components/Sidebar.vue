@@ -5,28 +5,22 @@
 			<img :src="logoURL" alt="Vue" /> 
 		</div>
 
-		<div class="menu-toggle-wrap">
-			<button class="menu-toggle" @click="ToggleMenu">
-				<span class="material-icons">keyboard_double_arrow_right</span>
-			</button>
-		</div>
-
 		<h3>Menu</h3>
 		<div class="menu">
 			<router-link to="/" class="button">
-				<span><Icon icon="material-symbols:home-outline" width="30" /></span>
+				<span><Icon icon="material-symbols:home-outline" width="20" /></span>
 				<span class="text">Home</span>
 			</router-link>
 			<router-link to="/about" class="button">
-				<span ><Icon icon="mdi:user-group-outline" width="28" /></span>
+				<span ><Icon icon="mdi:user-group-outline" width="20" /></span>
 				<span class="text">Parents</span>
 			</router-link>
 			<router-link to="/profiles" class="button">
-				<span ><Icon icon="system-uicons:files-stack" width="28" /></span>
+				<span ><Icon icon="system-uicons:files-stack" width="20" /></span>
 				<span class="text">Students</span>
 			</router-link>
 			<router-link to="/add" class="button">
-				<span ><Icon icon="mingcute:user-add-line" width="28" /></span>
+				<span ><Icon icon="mingcute:user-add-line" width="20" /></span>
 				<span class="text">Profiles</span>
 			</router-link>
 		</div>
@@ -35,7 +29,7 @@
 		
 		<div class="menu">
 			<router-link to="/settings" class="button">
-				<span ><Icon icon="mdi:user-circle-outline" width="28" /></span>
+				<span ><Icon icon="mdi:user-circle-outline" width="20" /></span>
 				<span class="text">Profile</span>
 			</router-link>
 		</div>
@@ -62,7 +56,7 @@ aside {
 	background-color: var(--dark);
 	color: var(--light);
 
-	width: calc(2rem + 32px);
+	width: calc(2rem + 8px);
 	overflow: hidden;
 	min-height: 100vh;
 	padding: 1rem;
@@ -92,11 +86,6 @@ aside {
 
 		.menu-toggle {
 			transition: 0.2s ease-in-out;
-			.material-icons {
-				font-size: 2rem;
-				color: var(--light);
-				transition: 0.2s ease-out;
-			}
 			
 			&:hover {
 				.material-icons {
@@ -184,17 +173,10 @@ aside {
 			opacity: 1;
 		}
 
-		.button {
-			.material-icons {
-				margin-right: 1rem;
-			}
-		}
-
 		.footer {
 			opacity: 0;
 		}
 	}
-
 	@media (max-width: 1024px) {
 		position: absolute;
 		z-index: 99;

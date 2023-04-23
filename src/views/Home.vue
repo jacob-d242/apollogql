@@ -1,6 +1,161 @@
 <template>
-	<main id="Home-page">
-		<h1>Home</h1>
-		<p>This is the home page</p>
-	</main>
+	<div class="overflow-x-auto w-full">
+		<table class="min-w-full divide-y-2 divide-gray-200 text-sm mr-10 border-spacing-1 border-cyan-500">
+			<thead class="ltr:text-left rtl:text-right">
+				<tr>
+					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
+						First Name
+					</th>
+					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
+						Last Name
+					</th>
+					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
+						Email
+					</th>
+					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
+						Role
+					</th>
+					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
+						Birthday
+					</th>
+					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
+						Sex
+					</th>
+					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
+						Student
+					</th>
+					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
+						Actions
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="parent in parents" :key="parent.id">
+					<td class="px-4 py-2 whitespace-nowrap">{{ parent.first_name }}</td>
+					<td class="px-4 py-2 whitespace-nowrap">{{ parent.last_name }}</td>
+					<td class="px-4 py-2 whitespace-nowrap">{{ parent.email }}</td>
+					<td class="px-4 py-2 whitespace-nowrap">{{ parent.role }}</td>
+					<td class="px-4 py-2 whitespace-nowrap">{{ parent.birthday }}</td>
+					<td class="px-4 py-2 whitespace-nowrap">{{ parent.sex }}</td>
+					<td class="px-4 py-2 whitespace-nowrap">{{ parent.student }}</td>
+					<td class="px-2 py-2 whitespace-nowrap">
+						<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded-md"
+							@click="showModal =(true)">
+							Edit
+						</button>
+						<button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded-md"
+							@click="handleDelete(index)">
+							Del
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div v-if="showModal" class="fixed z-10 inset-0 overflow-y-auto">
+			<div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+				<div class="fixed inset-0 transition-opacity">
+					<div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+				</div>
+				<div
+					class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+					<div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+						<h3 class="text-lg font-medium leading-6 text-gray-900 mb-2">Edit Parent Information</h3>
+
+						<!-- Form fields -->
+						<form class="space-y-6" @submit.prevent="submitForm">
+							<div>
+								<label for="first-name" class="block text-sm font-medium text-gray-700 mb-2">
+								First Name
+								</label>
+								<div class="mt-1">
+								<input type="text"  id="first-name" name="first-name" required class="shadow-sm py-2 px-2 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md">
+								</div>
+							</div>
+							<div>
+								<label for="first-name" class="block text-sm font-medium text-gray-700 mb-2">
+								Last Name
+								</label>
+								<div class="mt-1">
+								<input type="text"  id="first-name" name="first-name" required class="shadow-sm py-2 px-2 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md">
+								</div>
+							</div>
+							<div>
+								<label for="first-name" class="block text-sm font-medium text-gray-700 mb-2">
+									Email
+								</label>
+								<div class="mt-1">
+								<input type="text"  id="first-name" name="first-name" required class="shadow-sm py-2 px-2 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md">
+								</div>
+							</div>
+							<div>
+								<label for="first-name" class="block text-sm font-medium text-gray-700 mb-2">
+								Student name
+								</label>
+								<div class="mt-1">
+								<input type="text"  id="first-name" name="first-name" required class="shadow-sm py-2 px-2 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md">
+								</div>
+							</div>
+							<div>
+								<div class="form-group flex-col justify-center">
+									<label for="gender">Gender:</label>
+									<select id="gender" >
+									<option value="Male">Male</option>
+									<option value="Female">Female</option>
+									<option value="Other">Other</option>
+									</select>
+								</div>
+								<div class="form-group flex-col justify-center">
+									<label for="gender">Role:</label>
+									<select id="gender" >
+									<option value="Male">Gurdian</option>
+									<option value="Female">Parent</option>
+									<option value="Other">Other</option>
+									</select>
+								</div>
+								<div>
+									
+								</div>
+							</div>
+						</form>
+						<button
+						class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded-md"						
+						@click="showModal = false">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
+  
+<script>
+export default {
+	data() {
+		return {
+			showModal :false,
+			parents: [
+				{
+					id: 1,
+					first_name: "John",
+					last_name: "Doe",
+					email: "johndoe@example.com",
+					role: "Gurdian",
+					birthday: "1/1/2022",
+					sex: "Male",
+					student: 'Mike'
+				},
+				{
+					id: 2,
+					first_name: "Jane",
+					last_name: "Doe",
+					email: "janedoe@example.com",
+					role: "Parent",
+					birthday: "1/1/2022",
+					sex: "Male",
+					student: 'Mike'
+				},
+			],
+		};
+	},
+};
+</script>
+  
