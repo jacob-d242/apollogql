@@ -1,6 +1,7 @@
 <template>
 	<div class="app">
 		<!-- Sidebar -->
+		<!-- <Sidebar/> -->
 		<!-- <HomeScreen/>	 -->
 
 		<!-- Content -->

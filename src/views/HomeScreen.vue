@@ -1,14 +1,12 @@
 <template>
-    <div class="gradient-form h-full w-full bg-neutral-200 dark:bg-neutral-700">
+    <div class="gradient-form h-full w-full  bg-gray-400">
         <div class="container h-full p-10 ">
             <div class="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
                 <div class="w-full">
                     <div class="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
                         <div class="g-0 lg:flex lg:flex-wrap">
-                            <!-- Left column container-->
                             <div class="px-4 md:px-0 lg:w-6/12">
                                 <div class="md:mx-6 md:p-12">
-                                    <!--Logo-->
                                     <div class="text-center">
                                         <img class="mx-auto w-48"
                                             src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
@@ -72,11 +70,7 @@
                                         We are more than just a company
                                     </h4>
                                     <p class="text-sm">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                                        elit, sed do eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud exercitation ullamco laboris nisi ut aliquip ex
-                                        ea commodo consequat.
+                                        Managing your data is priotiry
                                     </p>
                                 </div>
                             </div>

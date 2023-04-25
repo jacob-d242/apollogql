@@ -2,6 +2,12 @@
 	<div class="overflow-x-auto w-full">
 		<table class="min-w-full divide-y-2 divide-gray-200 text-sm mr-10 border-spacing-1 border-cyan-500">
 			<thead class="ltr:text-left rtl:text-right">
+				<tr class="flex center">
+					
+					<th>
+						<input type="text" class="px-3 py-2 w-full rounded-md text-gray-800 border-black "/>
+					</th>
+				</tr>
 				<tr>
 					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
 						First Name
@@ -95,31 +101,34 @@
 								<input type="text"  id="first-name" name="first-name" required class="shadow-sm py-2 px-2 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md">
 								</div>
 							</div>
-							<div>
-								<div class="form-group flex-col justify-center">
-									<label for="gender">Gender:</label>
-									<select id="gender" >
+							<div class="flex">
+								<div class="w-1/2 flex justify-center items-center">
+									<label for="gender" class="mr-2 ">Gender:</label>
+									<select id="gender" class="w-1/2 px-2 py-2 rounded-md">
 									<option value="Male">Male</option>
 									<option value="Female">Female</option>
 									<option value="Other">Other</option>
 									</select>
 								</div>
-								<div class="form-group flex-col justify-center">
-									<label for="gender">Role:</label>
-									<select id="gender" >
-									<option value="Male">Gurdian</option>
-									<option value="Female">Parent</option>
+								<div class="w-1/2 flex justify-center items-center">
+									<label for="role" class="mr-2">Role:</label>
+									<select id="role" class="w-1/2 px-2 py-2 rounded-md">
+									<option value="Guardian">Guardian</option>
+									<option value="Parent">Parent</option>
 									<option value="Other">Other</option>
 									</select>
 								</div>
-								<div>
-									
-								</div>
+							</div>
+							<div class="flex justify-center space-x-4">
+								<button
+								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded-md"						
+								@click="showModal = false">Cancel</button>
+								<button
+								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded-md"						
+								>Update</button>
 							</div>
 						</form>
-						<button
-						class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded-md"						
-						@click="showModal = false">Cancel</button>
+
 					</div>
 				</div>
 			</div>

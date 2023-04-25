@@ -1,10 +1,6 @@
 <template>
 	
 	<aside :class="`${is_expanded ? 'is-expanded' : ''}`">
-		<div class="logo">
-			<img :src="logoURL" alt="Vue" /> 
-		</div>
-
 		<h3>Menu</h3>
 		<div class="menu">
 			<router-link to="/dashboard" class="button">
@@ -38,10 +34,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import logoURL from '../assets/qhala.png'
 import { Icon } from '@iconify/vue';
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
-
 const ToggleMenu = () => {
 	is_expanded.value = !is_expanded.value
 	localStorage.setItem("is_expanded", is_expanded.value)

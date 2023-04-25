@@ -3,6 +3,7 @@ import DashBoard from '../views/DashBoard.vue'
 import Students from '../views/Students.vue'
 import Profile from '../views/Profiles.vue'
 import HomeScreen from '../views/HomeScreen.vue'
+import Register from '../components/Register.vue'
 const router = createRouter({
 	history: createWebHistory(),
 	routes: [
@@ -21,6 +22,10 @@ const router = createRouter({
 		{
 			path: '/profiles',
 			component: Profile
+		},
+		{
+			path: '/register',
+			component: Register
 		}
 	],
 })
