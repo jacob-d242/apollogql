@@ -19,7 +19,7 @@
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400  sm:text-sm sm:leading-6" />
 
                     </div>
-                    <div class="flex flex-row mb-2 gap-1">
+                    <div class="flex flex-row justify-between mb-2 gap-2">
                         <div class="relative ">
                             <label class="block text-sm font-medium leading-6 text-gray-900">First Name
                             </label>

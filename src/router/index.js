@@ -4,6 +4,7 @@ import Students from '../views/Students.vue'
 import Profile from '../views/Profiles.vue'
 import HomeScreen from '../views/HomeScreen.vue'
 import Register from '../components/Register.vue'
+import Login from '../components/Login.vue'
 const router = createRouter({
 	history: createWebHistory(),
 	routes: [
@@ -26,6 +27,10 @@ const router = createRouter({
 		{
 			path: '/register',
 			component: Register
+		},
+		{
+			path: '/login',
+			component: Login
 		}
 	],
 })

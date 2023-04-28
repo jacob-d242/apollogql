@@ -137,34 +137,51 @@
 </template>
   
 <script>
-export default {
-	data() {
-		return {
-			showModal :false,
-			parents: [
-				{
-					id: 1,
-					first_name: "John",
-					last_name: "Doe",
-					email: "johndoe@example.com",
-					role: "Gurdian",
-					birthday: "1/1/2022",
-					sex: "Male",
-					student: 'Mike'
-				},
-				{
-					id: 2,
-					first_name: "Jane",
-					last_name: "Doe",
-					email: "janedoe@example.com",
-					role: "Parent",
-					birthday: "1/1/2022",
-					sex: "Male",
-					student: 'Mike'
-				},
-			],
-		};
-	},
-};
+import {onMounted, ref} from 'vue'
+import axios from 'axios'
+export default{
+	setup() {
+	const showModal = ref(false)
+	const parentData = ref([])
+	const fetchData = async () =>{
+				try {
+					const response = await axios.get("https://att-backend.herokuapp.com/account",{
+						data :{
+							query:`
+							{
+								parent {                 
+								birthday
+								email
+								first_name
+								last_name
+								role
+								sex
+								student {               
+									birthday
+									first_name
+									last_name
+									sex
+								}
+								}
+							}
+						`
+					}} )
+					parentData = response.data.data.parent;
+					console.log("data is",parentData)
+					console.log(response)
+				} catch (error) {
+					console.log(error)
+				}
+			}
+			onMounted(()=>{
+				fetchData()
+			})
+			return {
+				showModal,
+				parentData,
+				fetchData
+			}
+		},
+	}
 </script>
   
