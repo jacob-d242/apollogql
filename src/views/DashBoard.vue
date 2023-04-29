@@ -145,11 +145,13 @@ export default{
 	const parentData = ref([])
 	const fetchData = async () =>{
 				try {
-					const response = await axios.get("https://att-backend.herokuapp.com/account",{
+					const response = await axios({
+						method:'POST',
+						url:"https://att-backend.herokuapp.com/account",
 						data :{
 							query:`
 							{
-								parent {                 
+								parents {                 
 								birthday
 								email
 								first_name
@@ -166,7 +168,7 @@ export default{
 							}
 						`
 					}} )
-					parentData = response.data.data.parent;
+					parentData = response.data.data.parents;
 					console.log("data is",parentData)
 					console.log(response)
 				} catch (error) {
