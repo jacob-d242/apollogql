@@ -136,29 +136,17 @@
 	</div>
 </template>
   
-<script>
-import {onMounted, ref} from 'vue'
-import axios from 'axios'
-export default{
-	setup() {
-	const showModal = ref(false)
-	const parentData = ref([])
-	const fetchData = async () =>{
-				try {
-					const response = await axios({
-						method:'POST',
-						url:"https://att-backend.herokuapp.com/account",
-						data :{
-							query:`
+<script setup>
+	 async function handleFetch () { 
+							const query=`
 							{
 								parents {                 
-								birthday
-								email
-								first_name
-								last_name
-								role
-								sex
-								student {               
+									email
+									first_name
+									last_name
+									role
+									sex
+								students {               
 									birthday
 									first_name
 									last_name
@@ -167,23 +155,26 @@ export default{
 								}
 							}
 						`
-					}} )
-					parentData = response.data.data.parents;
-					console.log("data is",parentData)
-					console.log(response)
-				} catch (error) {
-					console.log(error)
-				}
+				try {
+					const params = new URLSearchParams({
+						query: query
+					})
+					
+					const response = await fetch(`https://att-backend.herokuapp.com/account?${params.toString()}`,{
+						method:'GET',
+						headers:{
+							'Content-type':'application/json'
+						},
+					})
+				const data = await response.json()
+				if(!response.ok){
+						throw new Error(`HTTP error! status: &{response.status}`)
+					};
+				console.log(JSON.stringify(data,null,2));
+			} catch(error){
+				console.log(`Error : ${error.message}`)
 			}
-			onMounted(()=>{
-				fetchData()
-			})
-			return {
-				showModal,
-				parentData,
-				fetchData
-			}
-		},
-	}
+		}
+		handleFetch()
 </script>
   

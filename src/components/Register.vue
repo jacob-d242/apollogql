@@ -57,7 +57,7 @@
                             </label>
                             <!-- <input type="number" v-model="birthday"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 f sm:text-sm sm:leading-6" /> -->
-                                <VueDatePicker v-model="date" :format="format"></VueDatePicker>
+                                <VueDatePicker v-model="date" :format="format" :is-24="false" ></VueDatePicker>
                         </div>
           </div>
           <div class="relative mb-2">
@@ -113,6 +113,7 @@ import validation from '../utilis/validation';
       const day = date.getDate();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
+    
       return `${day}/${month}/${year}`;
     }
     async function handleSubmit() {
