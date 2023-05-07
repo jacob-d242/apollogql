@@ -6,8 +6,9 @@
               
               <div class="flex items-center lg:ml-auto ">
                 <button 
-                  @click="showModal =  true"
-                type="button" class="inline-block px-6 py-2.5 mr-2 bg-transparent text-green-700 font-bold text-xs  rounded hover:text-white hover:bg-green-700 focus:bg-gray-100 focus:outline-none " >
+                @click="showModal = true"
+                  type="button" 
+                    class="inline-block px-6 py-2.5 mr-2 bg-transparent text-green-700 font-bold text-xs  rounded hover:text-white hover:bg-green-700 focus:bg-gray-100 focus:outline-none " >
                   Login
                 </button>
                 <button type="button" class="inline-block px-6 py-2.5 bg-green-700 text-white font-bold text-xs   rounded shadow-md hover:bg-white hover:text-green-700 hover:shadow-lg focus:bg-green-700">
@@ -16,7 +17,9 @@
               </div>
             </div>
           </nav>
-          <Login v-if="showModal" @close="showModal= false"/>
+          <div  v-if="showModal">
+            
+          </div>
           <div class="relative overflow-hidden bg-no-repeat bg-cover" style="background-position: 50%; background-image: url('https://mdbootstrap.com/img/new/standard/city/078.jpg');
           height: 550px;">
             <div class="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed" style="background-color: rgba(0, 0, 0, 0.75);">
@@ -38,21 +41,9 @@
         </div>
 </template>
 
-<script > 
-import NavBar from '../components/NavBar.vue';
+<script setup>
+import {ref} from 'vue'
 import Login from '../components/Login.vue';
-export default {
-  components :{
-    Login
-  },
-  data (){
-    showModal: false
-  
-  },
-  methods:{
-    openModal(){
-      this.showModal = !this.showModal
-    }
-  }
-}
+  components: { Login }
+  const showModal = ref(false)
 </script>

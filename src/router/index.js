@@ -5,6 +5,7 @@ import Profile from '../views/Profiles.vue'
 import HomeScreen from '../views/HomeScreen.vue'
 import Register from '../components/Register.vue'
 import Login from '../components/Login.vue'
+import activate from '../components/Activate.vue'
 const router = createRouter({
 	history: createWebHistory(),
 	routes: [
@@ -14,15 +15,18 @@ const router = createRouter({
 		},
 		{
 			path: '/dashboard',
-			component: DashBoard
+			component: DashBoard,
+			meta:{requiresAuth:true}
 		},
 		{
 			path: '/about',
-			component: Students
+			component: Students,
+			meta:{requiresAuth:true}
 		},
 		{
 			path: '/profiles',
-			component: Profile
+			component: Profile,
+			meta:{requiresAuth:true}
 		},
 		{
 			path: '/register',
@@ -31,8 +35,24 @@ const router = createRouter({
 		{
 			path: '/login',
 			component: Login
+		},
+		{
+			path: '/activate',
+			component: activate,
 		}
 	],
+})
+router.beforeEach((to,from,next)=>{
+	if(to.matched.some(record => record.meta.requiresAuth)){
+		const token =localStorage.getItem('token')
+		if(!token){
+			next({path:'/login'})
+		}else {
+			next()
+		}
+	}else{
+		next()
+	}
 })
 
 export default router

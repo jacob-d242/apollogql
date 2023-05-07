@@ -55,9 +55,7 @@
             <div class="relative">
                             <label class="block text-sm font-medium leading-6 text-gray-900">Birthday
                             </label>
-                            <!-- <input type="number" v-model="birthday"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 f sm:text-sm sm:leading-6" /> -->
-                                <VueDatePicker v-model="date" :format="format" :is-24="false" ></VueDatePicker>
+                            <VueDatePicker v-model="date" no-hours-overlay />
                         </div>
           </div>
           <div class="relative mb-2">
@@ -95,37 +93,37 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import validation from '../utilis/validation';
 
   components: { VueDatePicker }
-  
+
     const username = ref('')
     const first_name = ref('')
     const last_name = ref('')
     const email = ref('')
     const grade = ref('')
     const birthday = ref('')
+    const password = ref('')
     const errors = ref({})
-    const password = ref({})
+    const date = ref(new Date(''));
     const validate = () => {
-      
 
     }
-    const date = ref(new Date());
     const format = (date) => {
       const day = date.getDate();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
-    
+     
       return `${day}/${month}/${year}`;
     }
     async function handleSubmit() {
-            const query = `
+          const query = `
             mutation createMutation($account: UserInput) {
-                createUser(account: $account) {
-                  username
-                  first_name
-                  last_name
-                }
+              createUser(account: $account) {
+                username
+                first_name
+                last_name
               }
-            `
+              
+            }
+          `
 
       const variables = {
         account: {
@@ -134,7 +132,7 @@ import validation from '../utilis/validation';
           last_name: last_name.value,
           email: email.value,
           class: grade.value,
-          birthday: birthday.value,
+          birthday: '1999-10-11T00:00:00.000Z',
           password: password.value
         }
       }
@@ -150,10 +148,25 @@ import validation from '../utilis/validation';
         })
       }).then( async (res)  => {
           const data = await res.json()
-          console.log(data)
+
+          if (data.errors){
+            errors.value = { message: data.errors[0].message };
+          }else{
+            errors.value = { message: "User created successfully!" };
+            // Reset form fields
+            username.value = '';
+            first_name.value = '';
+            last_name.value = '';
+            email.value = '';
+            grade.value = '';
+            birthday.value = '';
+            password.value = '';
+          console.log(token)
+          console.log(data)}
         }).catch(error =>{
-        console.log(error)
+          errors.value = { message: "An error occurred while submitting the form. Please try again later." };
       })
     }
+
 </script>
 

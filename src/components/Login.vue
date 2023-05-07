@@ -1,4 +1,10 @@
 <template>
+     <div v-if="showModal" class="fixed z-10 inset-0 overflow-y-auto">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <!-- Background overlay -->
+      <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+      </div>
     <div class="modal  max-w-md rounded-lg bg-gray-200 m-5  flex items-center justify-center" >
         <div class="px-4 md:px-0 ">
             <div class="md:mx-6 ">
@@ -39,34 +45,36 @@
             </div>
         </div>
     </div>
+    </div>
+    </div>
 </template>
 
 <script setup>
 import { ref } from "vue"
+import router from "../router";
     const username = ref('')
     const password = ref('')
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token')
+    const showModal = ref(false)
     async function handleLogin(){
          if (!username.value || !password.value) {
                 console.log("Please enter your username and password");
                 return;
             }
             const query =`
-            query Query($account: UserAuth!) {
-                authUser(account: $account) {
-                    token
+            query QueryLogin($authUserAccount2: UserAuth!) {
+                authUser(account: $authUserAccount2) {
                     user {
-                    username
+                        username
+                        class
                     }
+                    token
                 }
                 }
             `
         const variables ={
-            account:{
+            authUserAccount2:{
                 username: username.value,
-                password: password.value,
-                //token : token
+                password: password.value,  
             }
         }
         try {
@@ -75,7 +83,6 @@ import { ref } from "vue"
             method:"POST",
             headers: {
                 'Content-type':'application/json',
-                'Authorization':'Bearer' + localStorage.getItem(token)
             },
             credentials:'include',
             body: JSON.stringify({
@@ -86,13 +93,19 @@ import { ref } from "vue"
         }) 
         const data = await response.json()
         console.log(data)
-        if(data.errors){
-            console.log(data.errors[0].message)
-        } else{
-            console.log(`welcome ${username}`)
+        if (data.errors) {
+        console.log(data.errors[0].message)
+        } else if (data.data && data.data.authUser && data.data.authUser.token) {
+        const token = data.data.authUser.token
+        localStorage.setItem('token', token)
+        router.push('/dashboard')
+        console.log(data)
+        console.log(`Welcome ${data.data.authUser.user.username}`)
+        } else {
+        console.log('Authentication failed')
         }
-        } catch (error) {
+    } catch (error) {
         console.log(error)
-        }
     }
+        }
 </script>
