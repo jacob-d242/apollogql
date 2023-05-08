@@ -55,7 +55,7 @@
             <div class="relative">
                             <label class="block text-sm font-medium leading-6 text-gray-900">Birthday
                             </label>
-                            <VueDatePicker v-model="date" no-hours-overlay />
+                            <VueDatePicker v-model="birthday" no-hours-overlay />
                         </div>
           </div>
           <div class="relative mb-2">

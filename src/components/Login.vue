@@ -71,35 +71,25 @@ import router from "../router";
     const showModal = ref('false')
     const showInput= ref(false)
     async function handleLogin(){
-         if (!username.value || !password.value) {
-                console.log("Please enter your username and password");
-                return;
-            }
+
             const query =`
-            query Query($account: UserAuth!) {
-                authUser(account: $account) {
-                    token
-                    user {
-                    username
-                    role
-                    last_name
-                    id
-                    first_name
-                    email
-                    createdAt
-                    class
-                    birthday
+                query QueryLogin($authUserAccount2: UserAuth!) {
+                    authUser(account: $authUserAccount2) {
+                        user {
+                        username
+                        class
+                        }
+                        token
                     }
-                }
                 }
             `
         const variables ={
-            account:{
+            authUserAccount2:{
                 username: username.value,
                 password: password.value,  
             }
         }           
-          await fetch("https://att-backend.herokuapp.com/",{
+        await fetch("https://att-backend.herokuapp.com/",{
             method:"POST",
             headers: {
                 'Content-type':'application/json',
@@ -119,7 +109,6 @@ import router from "../router";
             console.error(error)
         })
         }
-
         // reset password
         const email = ref('')
         async function handleReset(){

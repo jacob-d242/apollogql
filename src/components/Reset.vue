@@ -75,9 +75,4 @@ const token = params.get("token");
             console.log(error);
         }
     }
-    // if (id && token) {
-    //   handleActivate();
-    // } else {
-    //   console.error("id and token are required");
-    // }
 </script>
