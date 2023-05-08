@@ -6,6 +6,7 @@ import HomeScreen from '../views/HomeScreen.vue'
 import Register from '../components/Register.vue'
 import Login from '../components/Login.vue'
 import activate from '../components/Activate.vue'
+import Reset from '../components/Reset.vue'
 const router = createRouter({
 	history: createWebHistory(),
 	routes: [
@@ -39,20 +40,24 @@ const router = createRouter({
 		{
 			path: '/activate',
 			component: activate,
+		},
+		{
+			path: '/reset',
+			component: Reset
 		}
 	],
 })
-router.beforeEach((to,from,next)=>{
-	if(to.matched.some(record => record.meta.requiresAuth)){
-		const token =localStorage.getItem('token')
-		if(!token){
-			next({path:'/login'})
-		}else {
-			next()
-		}
-	}else{
-		next()
-	}
-})
+// router.beforeEach((to,from,next)=>{
+// 	if(to.matched.some(record => record.meta.requiresAuth)){
+// 		const token =localStorage.getItem('token')
+// 		if(!token){
+// 			next({path:'/login'})
+// 		}else {
+// 			next()
+// 		}
+// 	}else{
+// 		next()
+// 	}
+// })
 
 export default router

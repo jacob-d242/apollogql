@@ -1,13 +1,22 @@
 <template>
 	<div class="overflow-x-auto w-full">
-		<table class="min-w-full divide-y-2 divide-gray-200 text-sm mr-10 border-spacing-1 border-cyan-500">
+			<div class="flex flex-row mt-5 justify-center align-center mb-4 gap-2">
+				<div>
+					<input type="text" class="px-3 py-2 w-full rounded-md text-gray-800 border-black "/>
+				</div>
+				<div>
+					<button class="bg-green-700 h-50 text-white font-bold py-2 px-8 rounded-md"
+							@click="showModal =(true)">
+							New
+						</button>
+				</div>
+				<div>
+					<button class="bg-green-700 h-50 text-white font-bold py-2 px-8 rounded-md">Update</button>
+				</div>
+			</div>				
+		<table class="min-w-800 divide-y-2 bg-slate-300 divide-gray-200 text-sm mr-10 border-spacing-1 border-cyan-500">
 			<thead class="ltr:text-left rtl:text-right">
-				<tr class="flex center">
-					
-					<th>
-						<input type="text" class="px-3 py-2 w-full rounded-md text-gray-800 border-black "/>
-					</th>
-				</tr>
+				
 				<tr>
 					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
 						First Name
@@ -45,10 +54,6 @@
 					<td class="px-4 py-2 whitespace-nowrap">{{ parent.sex }}</td>
 					<td class="px-4 py-2 whitespace-nowrap">{{ parent.student }}</td>
 					<td class="px-2 py-2 whitespace-nowrap">
-						<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded-md"
-							@click="showModal =(true)">
-							Edit
-						</button>
 						<button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded-md"
 							@click="handleDelete(index)">
 							Del
@@ -128,7 +133,6 @@
 								>Update</button>
 							</div>
 						</form>
-
 					</div>
 				</div>
 			</div>
@@ -137,6 +141,8 @@
 </template>
   
 <script setup>
+import {ref} from 'vue'
+const showModal = ref(true)
 	 async function handleFetch () { 
 							const query=`
 							{
@@ -160,7 +166,7 @@
 						query: query
 					})
 					
-					const response = await fetch(`https://att-backend.herokuapp.com/account?${params.toString()}`,{
+					const response = await fetch(`https://att-backend.herokuapp.com/`,{
 						method:'GET',
 						headers:{
 							'Content-type':'application/json'

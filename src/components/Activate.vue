@@ -1,11 +1,11 @@
 <template>
     <div class="flex items-center">
       <div class="text-center">
-        <!-- <img
+        <img
           class="mx-auto w-28"
           src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
           alt="logo"
-        /> -->
+        />
         <h4 class="mb-4 mt-1 pb-1 text-xl font-semibold">
           We are The Qhala Team
         </h4>

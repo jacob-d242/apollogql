@@ -1,11 +1,7 @@
 <template>
      <div v-if="showModal" class="fixed z-10 inset-0 overflow-y-auto">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <!-- Background overlay -->
-      <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-      </div>
-    <div class="modal  max-w-md rounded-lg bg-gray-200 m-5  flex items-center justify-center" >
+    <div class="flex  justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div  class="modal  max-w-md rounded-lg bg-gray-200 m-5  flex items-center justify-center" >
         <div class="px-4 md:px-0 ">
             <div class="md:mx-6 ">
                 <div class="text-center">
@@ -14,6 +10,9 @@
                     <h4 class="mb-4 mt-1 pb-1 text-xl font-semibold">
                         We are The Qhala Team
                     </h4>
+                </div>
+                <div v-if="errorMsg" class="mb-10 p-4 rounded-md bg-light-grey shadow-lg">
+                    <p class="text-red-500">{{ errorMsg }}</p>
                 </div>
                 <form @submit.prevent ="handleLogin">
                     <p mb-4> Please Login below to proceed</p>
@@ -43,6 +42,19 @@
                         </div>
                 </form>
             </div>
+            <div class="flex justify-center mb-4 align-middle">
+                <p>Forgot password ?</p>
+                <button class="text-green-700" @click="showInput = !showInput">Reset</button>
+            </div>
+            <div class="mb-4 justify-center align-middle">
+                <form v-if="showInput" class=" flex flex-col space-2" @submit.prevent="handleReset">
+                    <input 
+                        v-model="email"
+                        class="block mb-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400  sm:text-sm sm:leading-6" 
+                            type="text" />
+                    <button type="submit" class="bg-green-700 rounded-sm ">Reset</button>
+                </form>
+            </div>
         </div>
     </div>
     </div>
@@ -52,60 +64,89 @@
 <script setup>
 import { ref } from "vue"
 import router from "../router";
+    // Login
     const username = ref('')
     const password = ref('')
-    const showModal = ref(false)
+    const errorMsg = ref()
+    const showModal = ref('false')
+    const showInput= ref(false)
     async function handleLogin(){
          if (!username.value || !password.value) {
                 console.log("Please enter your username and password");
                 return;
             }
             const query =`
-            query QueryLogin($authUserAccount2: UserAuth!) {
-                authUser(account: $authUserAccount2) {
-                    user {
-                        username
-                        class
-                    }
+            query Query($account: UserAuth!) {
+                authUser(account: $account) {
                     token
+                    user {
+                    username
+                    role
+                    last_name
+                    id
+                    first_name
+                    email
+                    createdAt
+                    class
+                    birthday
+                    }
                 }
                 }
             `
         const variables ={
-            authUserAccount2:{
+            account:{
                 username: username.value,
                 password: password.value,  
             }
-        }
-        try {
-            
-          const response =  await fetch("https://att-backend.herokuapp.com/",{
+        }           
+          await fetch("https://att-backend.herokuapp.com/",{
             method:"POST",
             headers: {
                 'Content-type':'application/json',
             },
-            credentials:'include',
             body: JSON.stringify({
                 query,
                 variables,
 
             })
-        }) 
-        const data = await response.json()
-        console.log(data)
-        if (data.errors) {
-        console.log(data.errors[0].message)
-        } else if (data.data && data.data.authUser && data.data.authUser.token) {
-        const token = data.data.authUser.token
-        localStorage.setItem('token', token)
-        router.push('/dashboard')
-        console.log(data)
-        console.log(`Welcome ${data.data.authUser.user.username}`)
-        } else {
-        console.log('Authentication failed')
+        }).then(async (res) => {
+            const data = await res.json()
+            console.log(data)
+            if (!res.ok) {
+             throw new Error(`HTTP error ${res.status}`);
+         }
+        }).catch(error => {
+            console.error(error)
+        })
         }
-    } catch (error) {
-        console.log(error)
-    }
+
+        // reset password
+        const email = ref('')
+        async function handleReset(){
+            const query =`
+            mutation Mutation($email: String!) {
+                forgotPassword(email: $email)
+            }
+            `
+            const variables ={
+                    email: email.value
+            }
+            try {
+                const res = await fetch ("https://att-backend.herokuapp.com/",{
+                    method:"POST",
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        query,
+                        variables
+                    })
+                })
+                const data = await res.json()
+                console.log(data)
+                email.value = ''
+            } catch (error) {
+                console.log(error)
+            }
         }
 </script>

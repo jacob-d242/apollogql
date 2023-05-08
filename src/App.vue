@@ -1,7 +1,7 @@
 <template>
 	<div class="app">
 		<!-- Sidebar -->
-		<!-- <Sidebar/> -->
+		<!-- <Sidebar v-if="$route.path !== '/'"/> -->
 		<!-- <HomeScreen/>	 -->
 
 		<!-- Content -->

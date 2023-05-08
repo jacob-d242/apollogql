@@ -6,7 +6,7 @@
               
               <div class="flex items-center lg:ml-auto ">
                 <button 
-                @click="showModal = true"
+                  @click="showModal = !showModal"
                   type="button" 
                     class="inline-block px-6 py-2.5 mr-2 bg-transparent text-green-700 font-bold text-xs  rounded hover:text-white hover:bg-green-700 focus:bg-gray-100 focus:outline-none " >
                   Login
@@ -15,11 +15,10 @@
                   Sign up for free
                 </button>
               </div>
+              
             </div>
           </nav>
-          <div  v-if="showModal">
-            
-          </div>
+          <login-modal :showModal="showModal" />
           <div class="relative overflow-hidden bg-no-repeat bg-cover" style="background-position: 50%; background-image: url('https://mdbootstrap.com/img/new/standard/city/078.jpg');
           height: 550px;">
             <div class="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed" style="background-color: rgba(0, 0, 0, 0.75);">
@@ -41,9 +40,16 @@
         </div>
 </template>
 
-<script setup>
-import {ref} from 'vue'
+<script >
 import Login from '../components/Login.vue';
-  components: { Login }
-  const showModal = ref(false)
+export default { 
+  components: { Login },
+  data(){
+    return{
+      showModal:true
+    }
+
+  }
+  
+  }
 </script>

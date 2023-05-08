@@ -132,7 +132,7 @@ import validation from '../utilis/validation';
           last_name: last_name.value,
           email: email.value,
           class: grade.value,
-          birthday: '1999-10-11T00:00:00.000Z',
+          birthday: birthday.value,
           password: password.value
         }
       }
@@ -161,8 +161,10 @@ import validation from '../utilis/validation';
             grade.value = '';
             birthday.value = '';
             password.value = '';
+            
           console.log(token)
-          console.log(data)}
+          console.log(data)
+        }
         }).catch(error =>{
           errors.value = { message: "An error occurred while submitting the form. Please try again later." };
       })
