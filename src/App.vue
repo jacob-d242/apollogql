@@ -1,7 +1,8 @@
 <template>
 	<div class="app">
 		<!-- Sidebar -->
-		<Sidebar v-if="$route.path !== '/'"/>
+		<Sidebar v-if="!['/', '/login'].includes($route.path)"/>
+		
 		<!-- <HomeScreen/>	 -->
 
 		<!-- Content -->

@@ -1,5 +1,5 @@
 <template>
-     <div v-if="showModal" class="fixed z-10 inset-0 overflow-y-auto">
+     <div  class="fixed z-10 inset-0 overflow-y-auto">
     <div class="flex  justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
     <div  class="modal  max-w-md rounded-lg bg-gray-200 m-5  flex items-center justify-center" >
         <div class="px-4 md:px-0 ">
@@ -42,19 +42,22 @@
                         </div>
                 </form>
             </div>
-            <div class="flex justify-center mb-4 align-middle">
-                <p>Forgot password ?</p>
-                <button class="text-green-700" @click="showInput = !showInput">Reset</button>
-            </div>
-            <div class="mb-4 justify-center align-middle">
-                <form v-if="showInput" class=" flex flex-col space-2" @submit.prevent="handleReset">
-                    <input 
-                        v-model="email"
-                        class="block mb-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400  sm:text-sm sm:leading-6" 
-                            type="text" />
-                    <button type="submit" class="bg-green-700 rounded-sm ">Reset</button>
-                </form>
-            </div>
+            <div>
+    <div class="flex justify-center mb-4 align-middle">
+      <p>Forgot password ?</p>
+      <button class="text-green-700" @click="showModal = !showModal">Reset</button>
+    </div>
+    <div v-if="showModal" class=" mb-4 justify-center align-middle">
+      <form class="flex flex-col space-2" @submit.prevent="handleReset">
+        <input
+          v-model="email"
+          class="block mb-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6"
+          type="text"
+        />
+        <button type="submit" class="bg-green-700 rounded-sm">Reset</button>
+      </form>
+    </div>
+  </div>
         </div>
     </div>
     </div>
@@ -64,12 +67,15 @@
 <script setup>
 import { ref } from "vue"
 import router from "../router";
+import { useRoute } from "vue-router";
+import {userAuthStore} from '../store/Auth'
     // Login
     const username = ref('')
     const password = ref('')
     const errorMsg = ref()
-    const showModal = ref('false')
-    const showInput= ref(false)
+    const showModal = ref(false)
+   // const showInput= ref(false)
+    const authStore = userAuthStore()
     async function handleLogin(){
 
             const query =`
@@ -100,16 +106,19 @@ import router from "../router";
 
             })
         }).then(async (res) => {
-            const data = await res.json()
-            console.log(data)
-            if (!res.ok) {
-             throw new Error(`HTTP error ${res.status}`);
-         }
+            if (!res.ok) {throw new Error(`HTTP error ${res.status}`)};
+                const data = await res.json()
+                const user = data.data.authUser.user
+                const token = data.data.authUser.token
+                localStorage.setItem('token',token)
+                authStore.Login(user)
+                console.log(user)
+                router.push("/dashboard")
         }).catch(error => {
             console.error(error)
         })
         }
-        // reset password
+        // send the reset password email
         const email = ref('')
         async function handleReset(){
             const query =`

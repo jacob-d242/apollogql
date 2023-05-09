@@ -142,45 +142,6 @@
   
 <script setup>
 import {ref} from 'vue'
-const showModal = ref(true)
-	 async function handleFetch () { 
-							const query=`
-							{
-								parents {                 
-									email
-									first_name
-									last_name
-									role
-									sex
-								students {               
-									birthday
-									first_name
-									last_name
-									sex
-								}
-								}
-							}
-						`
-				try {
-					const params = new URLSearchParams({
-						query: query
-					})
-					
-					const response = await fetch(`https://att-backend.herokuapp.com/`,{
-						method:'GET',
-						headers:{
-							'Content-type':'application/json'
-						},
-					})
-				const data = await response.json()
-				if(!response.ok){
-						throw new Error(`HTTP error! status: &{response.status}`)
-					};
-				console.log(JSON.stringify(data,null,2));
-			} catch(error){
-				console.log(`Error : ${error.message}`)
-			}
-		}
-		handleFetch()
+const showModal = ref(false)
 </script>
   

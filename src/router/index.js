@@ -22,7 +22,7 @@ const router = createRouter({
 		{
 			path: '/about',
 			component: Students,
-			meta:{requiresAuth:true}
+			
 		},
 		{
 			path: '/profiles',
@@ -42,22 +42,26 @@ const router = createRouter({
 			component: activate,
 		},
 		{
+			path: '/:catchAll(.*)',
+			redirect: { name: 'login' }
+		  },
+		{
 			path: '/reset',
 			component: Reset
 		}
 	],
 })
-// router.beforeEach((to,from,next)=>{
-// 	if(to.matched.some(record => record.meta.requiresAuth)){
-// 		const token =localStorage.getItem('token')
-// 		if(!token){
-// 			next({path:'/login'})
-// 		}else {
-// 			next()
-// 		}
-// 	}else{
-// 		next()
-// 	}
-// })
+router.beforeEach((to,from,next)=>{
+	if(to.matched.some(record => record.meta.requiresAuth)){
+		const token =localStorage.getItem('token')
+		if(!token){
+			next({path:'/login'})
+		}else {
+			next()
+		}
+	}else{
+		next()
+	}
+})
 
 export default router
