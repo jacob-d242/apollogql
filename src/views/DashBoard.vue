@@ -1,20 +1,28 @@
 <template>
-	<div class="overflow-x-auto w-full">
-			<div class="flex flex-row mt-5 justify-center align-center mb-4 gap-2">
-				<div>
-					<input type="text" class="px-3 py-2 w-full rounded-md text-gray-800 border-black "/>
-				</div>
-				<div>
-					<button class="bg-green-700 h-50 text-white font-bold py-2 px-8 rounded-md"
-							@click="showModal =(true)">
-							New
-						</button>
-				</div>
-				<div>
-					<button class="bg-green-700 h-50 text-white font-bold py-2 px-8 rounded-md">Update</button>
-				</div>
-			</div>				
-		<table class="min-w-800 divide-y-2 bg-slate-300 divide-gray-200 text-sm mr-10 border-spacing-1 border-cyan-500">
+	<div class="w-full">
+		<div class="flex justify-center mt-4">
+			<div class="relative">
+				<input
+					type="text"
+					class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+					placeholder="Search..."
+					v-model="searchTerm"
+				/>
+			</div>
+			<div class="ml-auto mr-4">
+				<button class="bg-green-700 h-10 text-white font-bold py-2 px-4 rounded-md"
+				@click="showModal = true">
+				New
+				</button>
+			</div>
+		</div>
+
+
+
+		<div>
+			<SummaryCard/>
+		</div>
+		<table class="min-w-800 w-auto  divide-y-2 bg-slate-300 divide-gray-200 text-sm mr-10 border-spacing-1 border-cyan-500">
 			<thead class="ltr:text-left rtl:text-right">
 				
 				<tr>
@@ -139,9 +147,51 @@
 		</div>
 	</div>
 </template>
-  
+
 <script setup>
-import {ref} from 'vue'
+import { ref, onMounted } from 'vue'
+import SummaryCard from '../components/SummaryCard.vue';
+
 const showModal = ref(false)
+const parentData = ref(null)
+
+async function fetchData() {
+  const query = `
+    query Query {
+      parents {
+        id
+        first_name
+        last_name
+        email
+        sex
+        role
+       
+      }
+    }
+  `
+	const token = localStorage.getItem('token')
+  try {
+    const response = await fetch("https://att-backend.herokuapp.com/", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+		'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        query
+      })
+    })
+
+    const data = await response.json()
+    parentData.value = data
+	console.log(parentData)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+onMounted(() => {
+  fetchData()
+})
 </script>
-  
+    

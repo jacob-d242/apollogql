@@ -1,6 +1,14 @@
+
 <template>
-	<main id="about-page">
+	<div>
+
 		<h1>Students</h1>
-		<p>This is the students page</p>
-	</main>
+		<CreateParent/>
+		</div>
 </template>
+
+<script setup>
+
+import CreateParent from '../components/CreateParent.vue';
+
+</script>

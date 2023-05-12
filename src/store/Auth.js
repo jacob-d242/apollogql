@@ -18,7 +18,9 @@ export const userAuthStore = defineStore({
             localStorage.removeItem(token)
         }
     },
-    getters(){
-
+    getters:{
+        getUser : state=> state.user,
+        isAuthenticated: state=> state.isAuthenticated,
+        isLoggedIn: state => state.user !== null && state.isAuthenticated
     }
 })

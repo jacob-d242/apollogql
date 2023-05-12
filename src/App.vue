@@ -3,12 +3,13 @@
 		<!-- Sidebar -->
 		<Sidebar v-if="!['/', '/login'].includes($route.path)"/>
 		
-		<!-- <HomeScreen/>	 -->
-
 		<!-- Content -->
-		<router-view />
+		<div class="main-content">
+			<router-view />
+		</div>
 	</div>
 </template>
+
 
 <script setup>
 // import HomeScreen from './views/HomeScreen.vue'
@@ -17,6 +18,7 @@ import Sidebar from './components/Sidebar.vue'
 
 <style lang="scss">
 :root {
+	/* Color variables */
 	--primary: #4ade80;
 	--primary-alt: #22c55e;
 	--grey: #64748b;
@@ -47,14 +49,22 @@ button {
 
 .app {
 	display: flex;
+}
 
-	main {
-		flex: 1 1 0;
-		padding: 2rem;
+.main-content {
+	flex: 1 1 0;
+	//padding: 2rem;
 
-		@media (max-width: 1024px) {
-			padding-left: 6rem;
-		}
+	/* Adjust the margin-left to account for the sidebar width */
+	margin-left: 5px;
+
+	/* Add a transition to create a smooth effect when the sidebar expands or collapses */
+	transition: margin-left 0.2s ease-in-out;
+
+	/* Media query for smaller screens */
+	@media (max-width: 1024px) {
+		padding-left: 0rem;
+		margin-left: 0;
 	}
 }
 </style>

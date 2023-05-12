@@ -1,5 +1,9 @@
 <template>
     <div>
-        <h1>Profiles</h1>
+        <CreateStudent/>
     </div>
 </template>
+
+<script setup>
+import CreateStudent from '../components/CreateStudent.vue';
+</script>
