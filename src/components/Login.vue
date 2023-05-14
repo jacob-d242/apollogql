@@ -1,5 +1,5 @@
 <template>
-     <div  class="fixed z-10 inset-0 overflow-y-auto">
+     <div   class="fixed z-10 inset-0 overflow-y-auto">
     <div class="flex  justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
     <div  class="modal  max-w-md rounded-lg bg-gray-200 m-5  flex items-center justify-center" >
         <div class="px-4 md:px-0 ">
@@ -20,7 +20,7 @@
                             <label class="block text-sm font-medium leading-6 text-gray-900">Username
                             </label>
                             <input type="text"
-                            
+                            name="username"
                             v-model="username"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400  sm:text-sm sm:leading-6" />
 
@@ -28,7 +28,7 @@
                         <div class="relative mb-2">
                             <label class="block text-sm font-medium leading-6 text-gray-900">Password
                             </label>
-                            <input type="password"
+                            <input name="password" type="password"
                                  v-model="password"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400  sm:text-sm sm:leading-6" />
 
@@ -63,20 +63,31 @@
     </div>
     </div>
 </template>
-
 <script setup>
 import { ref } from "vue"
 import router from "../router";
-import { useRoute } from "vue-router";
+import * as yup from 'yup'
 import {userAuthStore} from '../store/Auth'
     // Login
     const username = ref('')
     const password = ref('')
-    const errorMsg = ref()
-    const showModal = ref(false)
+    const errorMsg = ref("Invalid username or password.")
+   // const showModal = ref(false)
    // const showInput= ref(false)
     const authStore = userAuthStore()
+
+
+    const schema = yup.object({
+        username: yup.string().required(),
+        password: yup.string().required().min(6)
+    })
+
+
     async function handleLogin(){
+        await  schema.validate({
+            username : username.value,
+            password: password.value
+        })
 
             const query =`
                 query QueryLogin($authUserAccount2: UserAuth!) {
@@ -111,10 +122,12 @@ import {userAuthStore} from '../store/Auth'
                 const user = data.data.authUser.user
                 const token = data.data.authUser.token
                 localStorage.setItem('token',token)
-                authStore.Login(user)
-                console.log(user)
+               // authStore.Login(user)
+                errorMsg.value = '';
+//console.log(user)
                 router.push("/dashboard")
         }).catch(error => {
+            errorMsg.value = error.message;
             console.error(error)
         })
         }
@@ -147,4 +160,7 @@ import {userAuthStore} from '../store/Auth'
                 console.log(error)
             }
         }
+    const props = defineProps ({
+    open: Boolean
+    })
 </script>

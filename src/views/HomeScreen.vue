@@ -18,7 +18,9 @@
               
             </div>
           </nav>
-          <login-modal :showModal="showModal" />
+          
+            <Login v-bind="showModal"/>
+         
           <div class="relative overflow-hidden bg-no-repeat bg-cover" style="background-position: 50%; background-image: url('https://mdbootstrap.com/img/new/standard/city/078.jpg');
           height: 550px;">
             <div class="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed" style="background-color: rgba(0, 0, 0, 0.75);">
@@ -41,15 +43,7 @@
 </template>
 
 <script >
+import { ref } from 'vue';
 import Login from '../components/Login.vue';
-export default { 
-  components: { Login },
-  data(){
-    return{
-      showModal:true
-    }
-
-  }
-  
-  }
+const showModal = ref(false)
 </script>

@@ -21,55 +21,9 @@
 
 		<div>
 			<SummaryCard/>
-		</div>
-		<table class="min-w-800 w-auto  divide-y-2 bg-slate-300 divide-gray-200 text-sm mr-10 border-spacing-1 border-cyan-500">
-			<thead class="ltr:text-left rtl:text-right">
-				
-				<tr>
-					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
-						First Name
-					</th>
-					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
-						Last Name
-					</th>
-					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
-						Email
-					</th>
-					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
-						Role
-					</th>
-					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
-						Birthday
-					</th>
-					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
-						Sex
-					</th>
-					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
-						Student
-					</th>
-					<th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 tracking-wider">
-						Actions
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="parent in parents" :key="parent.id">
-					<td class="px-4 py-2 whitespace-nowrap">{{ parent.first_name }}</td>
-					<td class="px-4 py-2 whitespace-nowrap">{{ parent.last_name }}</td>
-					<td class="px-4 py-2 whitespace-nowrap">{{ parent.email }}</td>
-					<td class="px-4 py-2 whitespace-nowrap">{{ parent.role }}</td>
-					<td class="px-4 py-2 whitespace-nowrap">{{ parent.birthday }}</td>
-					<td class="px-4 py-2 whitespace-nowrap">{{ parent.sex }}</td>
-					<td class="px-4 py-2 whitespace-nowrap">{{ parent.student }}</td>
-					<td class="px-2 py-2 whitespace-nowrap">
-						<button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded-md"
-							@click="handleDelete(index)">
-							Del
-						</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		</div>			
+		<ParentsTable/>
+
 		<div v-if="showModal" class="fixed z-10 inset-0 overflow-y-auto">
 			<div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
 				<div class="fixed inset-0 transition-opacity">
@@ -151,47 +105,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import SummaryCard from '../components/SummaryCard.vue';
+import ParentsTable from '../components/ParentsTable.vue';
 
 const showModal = ref(false)
-const parentData = ref(null)
 
-async function fetchData() {
-  const query = `
-    query Query {
-      parents {
-        id
-        first_name
-        last_name
-        email
-        sex
-        role
-       
-      }
-    }
-  `
-	const token = localStorage.getItem('token')
-  try {
-    const response = await fetch("https://att-backend.herokuapp.com/", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-		'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        query
-      })
-    })
 
-    const data = await response.json()
-    parentData.value = data
-	console.log(parentData)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-onMounted(() => {
-  fetchData()
-})
 </script>
-    
