@@ -1,11 +1,16 @@
 <template>
   <div>
-    <button @click="openModal" class="px-4 py-2 text-sm font-semibold text-white bg-green-500 rounded-md ">Create
-      Parent</button>
+    <!-- <button @click="openModal" class="px-4 py-2 text-sm font-semibold text-white bg-green-500 rounded-md ">Create
+      Parent</button> -->
 
     <div v-if="showModal" class="fixed inset-0 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg p-6 w-100">
         <h2 class="text-lg font-bold mb-4">Create Parent</h2>
+        <div class="flex text-red-600" v-if="errorMsg">
+          <p>
+            {{ errorMsg }}
+          </p>
+        </div>
         <div class="flex flex-row mb-4 space-x-3">
           <div class="w-1/2">
             <label for="firstName" class="block mb-2 text-sm font-bold text-gray-700">First Name</label>
@@ -94,7 +99,7 @@
         </div>
       </div>
     </div>
-    <ParentsTable/>
+   
   </div>
 
 </template>
@@ -113,7 +118,7 @@ const format = (date) => {
   return `${day}/${month}/${year}`;
 }
 
-const showModal = ref(false)
+const showModal = ref("false")
 const email = ref('')
 const first_name = ref('')
 const last_name = ref('')
@@ -151,8 +156,10 @@ async function createParent() {
          
         }
         students {
+          id
           sex
           profile {
+            id
             school_name
             school_class
             sunday_class
@@ -203,6 +210,7 @@ async function createParent() {
       last_name.value = '';
       sex.value = '';
       role.value = '';
+     // errorMsg = "",
       console.log(variables)
       // Close the modal
       closeModal();
@@ -212,6 +220,7 @@ async function createParent() {
     }
   } catch (error) {
     console.log('Error:', error);
+   // errorMsg.value = error.value
   }
 }
 
