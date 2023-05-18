@@ -39,19 +39,21 @@
 				<td class="p-2 border border-gray-500">{{ parent.sex }}</td>
 				<td class="p-2 border border-gray-500" v-for="student in parent.students" :key="student.id">{{ student.first_name }}</td>
 				<td class="p-2 border border-gray-500">
-					<button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded-md"
-					@click="handleDelete(index)">
-					Del
+					<button class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded-md"
+					@click="toggleModal">
+					Relation
 					</button>
 				</td>
 				</tr>
 			</tbody>
 		</table>
-
+		<CreateRelation v-if="isModalOpen"/>
     </div>
 </template>
 <script setup>
 import {ref} from 'vue'
+import CreateRelation from './CreateRelation.vue';
+const isModalOpen = ref(false)
 const showModal = ref(false)
 const props = defineProps({
 	parentData:{
@@ -59,4 +61,8 @@ const props = defineProps({
 	
 	}
 })
+
+function toggleModal (){
+	isModalOpen.value = !isModalOpen.value
+}
 </script>

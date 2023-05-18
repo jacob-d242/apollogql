@@ -24,7 +24,7 @@ import SummaryCard from '../components/SummaryCard.vue';
 import ParentsTable from '../components/ParentsTable.vue';
 import CreateParent from '../components/CreateParent.vue';
 import Search from '../components/Search.vue';
-const showModal = ref("false")
+const showModal = ref(false)
 
 const parentData = ref(null)
 let totalParents = 0

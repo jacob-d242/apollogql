@@ -4,11 +4,12 @@
       Parent</button> -->
 
     <div v-if="showModal" class="fixed inset-0 flex items-center justify-center z-50">
+      <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
       <div class="bg-white rounded-lg p-6 w-100">
         <h2 class="text-lg font-bold mb-4">Create Parent</h2>
-        <div class="flex text-red-600" v-if="errorMsg">
+        <div class="flex content-center text-red-600" v-if="errorMsg">
           <p>
-            {{ errorMsg }}
+            {{ errorMsg.value }}
           </p>
         </div>
         <div class="flex flex-row mb-4 space-x-3">
@@ -118,7 +119,7 @@ const format = (date) => {
   return `${day}/${month}/${year}`;
 }
 
-const showModal = ref("false")
+const showModal = ref(true)
 const email = ref('')
 const first_name = ref('')
 const last_name = ref('')
@@ -129,7 +130,7 @@ const student_first_name = ref('')
 const student_last_name = ref('')
 const student_sex = ref('')
 const student_birthday = ref('')
-
+const errorMsg = ref("Ensure all fields are filled")
 
 const schema = yup.object({
   email: yup.string().required(),
@@ -144,9 +145,17 @@ const schema = yup.object({
 })
 
 async function createParent() {
-  // await schema.validate({
-
-  // })
+  await schema.validate({
+        email: email.value,
+        first_name: first_name.value,
+        last_name:last_name.value,
+        sex:sex.value,
+        birthday:birthday.value,
+        student_first_name:student_first_name.value,
+        student_last_name: student_last_name.value,
+        student_birthday:student_birthday.value,
+        student_sex:student_sex.value,
+})
   const query = `
     mutation CreateParent($parent: ParentInput) {
       createParent(parent: $parent) {
@@ -210,7 +219,7 @@ async function createParent() {
       last_name.value = '';
       sex.value = '';
       role.value = '';
-     // errorMsg = "",
+      errorMsg.value = "",
       console.log(variables)
       // Close the modal
       closeModal();
@@ -220,7 +229,7 @@ async function createParent() {
     }
   } catch (error) {
     console.log('Error:', error);
-   // errorMsg.value = error.value
+    errorMsg.value = error.value
   }
 }
 
@@ -233,3 +242,17 @@ function closeModal() {
   showModal.value = false;
 }
 </script>
+
+<style>
+.modal-overlay {
+  z-index: -1;
+}
+
+.modal-container {
+  max-height: 90%;
+}
+
+.modal-content {
+  max-height: calc(100vh - 120px);
+}
+</style>
