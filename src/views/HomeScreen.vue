@@ -6,7 +6,7 @@
               
               <div class="flex items-center lg:ml-auto ">
                 <button 
-                  @click="showModal = !showModal"
+                  @click="toggleModal"
                   type="button" 
                     class="inline-block px-6 py-2.5 mr-2 bg-transparent text-green-700 font-bold text-xs  rounded hover:text-white hover:bg-green-700 focus:bg-gray-100 focus:outline-none " >
                   Login
@@ -19,7 +19,7 @@
             </div>
           </nav>
           
-            <Login v-bind="showModal"/>
+           
          
           <div class="relative overflow-hidden bg-no-repeat bg-cover" style="background-position: 50%; background-image: url('https://mdbootstrap.com/img/new/standard/city/078.jpg');
           height: 550px;">
@@ -32,18 +32,22 @@
                 </div>
               </div>
             </div>
-          </div>
-
+          </div>  
           <div class="-mt-2.5 md:-mt-4 lg:-mt-6 xl:-mt-10" style="height: 150px; transform: scale(2); transform-origin: top center; color: green;">
             <svg viewBox="0 0 2880 48" xmlns="http://www.w3.org/2000/svg">
               <path d="M 0 48 L 1437.5 48 L 2880 48 L 2880 0 L 2160 0 C 1453.324 60.118 726.013 4.51 720 0 L 0 0 L 0 48 Z" fill="currentColor"></path>
             </svg>
           </div>
         </div>
+        <Login  v-if="isModalOpen"/>
 </template>
 
 <script >
 import { ref } from 'vue';
 import Login from '../components/Login.vue';
-const showModal = ref(false)
+const showModal = ref(true)
+const isModalOpen = ref(false)
+function toggleModal (){
+	isModalOpen.value = !isModalOpen.value
+}
 </script>

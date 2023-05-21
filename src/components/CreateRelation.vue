@@ -3,6 +3,13 @@
       <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
       <div class="modal-container bg-white w-4/5 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="modal-content py-4 px-6">
+          <div v-if="selectedItem">
+            <p><strong>First Name:</strong> {{ selectedItem.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ selectedItem.last_name }}</p>
+            <p><strong>Email:</strong> {{ selectedItem.email }}</p>
+            <p><strong>Role:</strong> {{ selectedItem.role }}</p>
+            <p><strong>Sex:</strong> {{ selectedItem.sex }}</p>
+          </div>
     </div>
     <button @click="closeModal">Close</button>
     </div>
@@ -12,6 +19,7 @@
 
 <script setup>
 import {ref} from 'vue'
+import { array } from 'yup';
 const isModalOpen = ref(true)
 function  closeModal(){
     isModalOpen.value = false
@@ -19,6 +27,12 @@ function  closeModal(){
 function openModal(){
     isModalOpen.value = true
 }
+
+const props = defineProps({
+  selectedItem :{
+    type:array
+  }
+})
 </script>
 
 <style>

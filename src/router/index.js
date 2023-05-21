@@ -20,7 +20,7 @@ const router = createRouter({
 			meta:{requiresAuth:true}
 		},
 		{
-			path: '/about',
+			path: '/students',
 			component: Students,
 			
 		},

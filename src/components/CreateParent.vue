@@ -1,109 +1,112 @@
 <template>
   <div>
-    <!-- <button @click="openModal" class="px-4 py-2 text-sm font-semibold text-white bg-green-500 rounded-md ">Create
-      Parent</button> -->
+    <!-- <button @click="openModal" class="px-4 py-2 text-sm font-semibold text-white bg-green-500 rounded-md ">Create Parent</button> -->
 
     <div v-if="showModal" class="fixed inset-0 flex items-center justify-center z-50">
       <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
-      <div class="bg-white rounded-lg p-6 w-100">
+      <div class="bg-white rounded-lg p-6 sm:w-96 lg:w-max">
         <h2 class="text-lg font-bold mb-4">Create Parent</h2>
         <div class="flex content-center text-red-600" v-if="errorMsg">
           <p>
             {{ errorMsg.value }}
           </p>
         </div>
-        <div class="flex flex-row mb-4 space-x-3">
-          <div class="w-1/2">
-            <label for="firstName" class="block mb-2 text-sm font-bold text-gray-700">First Name</label>
-            <input type="text" v-model="first_name" name="fist_name"
-              class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
-          </div>
-          <div class="w-1/2">
-            <label for="lastName" class="block mb-2 text-sm font-bold text-gray-700">Last Name</label>
-            <input type="text" v-model="last_name" name="last_name"
-              class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
-          </div>
-        </div>
-        <div class="flex flex-row mb-4 space-x-3">
-          <div class="w-1/2">
-            <label class="block mb-2 text-sm font-bold text-gray-700">Birthday</label>
-            <VueDatePicker v-model="birthday" class="w-full px-3 py-2" format="yyyy-MM-dd HH:mm" no-hours-overlay />
-          </div>
-          <div class="w-1/2">
-            <label for="email" class="block mb-2 text-sm font-bold text-gray-700">Email</label>
-            <input type="email" v-model="email" name="email"
-              class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
-          </div>
-        </div>
 
-        <div class="flex flex-row mb-4 space-x-3 justify-between">
-          <div class="w-1/2">
-            <label class="block mb-2 text-sm font-bold text-gray-700">Sex</label>
-            <select v-model="sex" id="sex" name="sex"
-              class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="">Other</option>
-            </select>
+        <!-- Add a wrapper with max-h-screen and overflow-y for scrolling -->
+        <div class="max-h-screen overflow-y-auto">
+          <div class="flex flex-col mb-4 space-y-3 sm:flex-row sm:space-x-3 sm:mb-0">
+            <div class="w-full sm:w-1/2">
+              <label for="firstName" class="block mb-2 text-sm font-bold text-gray-700">First Name</label>
+              <input type="text" v-model="first_name" name="fist_name"
+                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+            </div>
+            <div class="w-full sm:w-1/2">
+              <label for="lastName" class="block mb-2 text-sm font-bold text-gray-700">Last Name</label>
+              <input type="text" v-model="last_name" name="last_name"
+                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+            </div>
+          </div>
+          <div class="flex flex-col mb-4 space-y-3 sm:flex-row sm:space-x-3 sm:mb-0">
+            <div class="w-full sm:w-1/2">
+              <label class="block mb-2 text-sm font-bold text-gray-700">Birthday</label>
+              <VueDatePicker v-model="birthday" class="w-full px-3 py-2" format="yyyy-MM-dd HH:mm"
+                no-hours-overlay />
+            </div>
+            <div class="w-full sm:w-1/2">
+              <label for="email" class="block mb-2 text-sm font-bold text-gray-700">Email</label>
+              <input type="email" v-model="email" name="email"
+                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+            </div>
           </div>
 
-          <div class="w-1/2">
-            <label class="block mb-2 text-sm font-bold text-gray-700">Role</label>
-            <select v-model="role" id="role" name="role"
-              class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
-              <option value="">Select</option>
-              <option value="parent">PARENT</option>
-              <option value="teacher">TEACHER</option>
-              <option value="admin">ADMIN</option>
-            </select>
-          </div>
-        </div>
+          <div class="flex flex-col mb-4 space-y-3 sm:flex-row sm:space-x-3 sm:mb-0">
+            <div class="w-full sm:w-1/2">
+              <label class="block mb-2 text-sm font-bold text-gray-700">Sex</label>
+              <select v-model="sex" id="sex" name="sex"
+                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="">Other</option>
+              </select>
+            </div>
 
-        <!-- Student details -->
-        <div class="flex flex-row mb-4 space-x-3">
-          <div class="w-1/2">
-            <label for="firstName" class="block mb-2 text-sm font-bold text-gray-700">Student First Name</label>
-            <input type="text" v-model="student_first_name" name="student_fist_name"
-              class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+            <div class="w-full sm:w-1/2">
+              <label class="block mb-2 text-sm font-bold text-gray-700">Role</label>
+              <select v-model="role" id="role" name="role"
+                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+                <option value="">Select</option>
+                <option value="parent">PARENT</option>
+                <option value="teacher">TEACHER</option>
+                <option value="admin">ADMIN</option>
+              </select>
+            </div>
           </div>
-          <div class="w-1/2">
-            <label for="lastName" class="block mb-2 text-sm font-bold text-gray-700">Student Last Name</label>
-            <input type="text" v-model="student_last_name" name="student_last_name"
-              class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
-          </div>
-        </div>
-       
-        <div class="flex flex-row mb-4 space-x-3">
-          <div class="w-1/2">
-            <label class="block mb-2 text-sm font-bold text-gray-700">Student Birthday</label>
-            <VueDatePicker v-model="student_birthday" class="w-full px-3 py-2" format="yyyy-MM-dd HH:mm"
-              no-hours-overlay />
-          </div>
-          <div class="w-1/2">
-            <label class="block mb-2 text-sm font-bold text-gray-700">Student Sex</label>
-            <select v-model="student_sex" id="sex" name="student_sex"
-              class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="">Other</option>
-            </select>
-          </div>
-        </div>
 
-        <!-- End of student details -->
+          <!-- Student details -->
+          <div class="flex flex-col mb-4 space-y-3 sm:flex-row sm:space-x-3 sm:mb-0">
+            <div class="w-full sm:w-1/2">
+              <label for="firstName" class="block mb-2 text-sm font-bold text-gray-700">Student First Name</label>
+              <input type="text" v-model="student_first_name" name="student_fist_name"
+                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+            </div>
+            <div class="w-full sm:w-1/2">
+              <label for="lastName" class="block mb-2 text-sm font-bold text-gray-700">Student Last Name</label>
+              <input type="text" v-model="student_last_name" name="student_last_name"
+                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+            </div>
+          </div>
 
-        <div class="flex justify-end">
-          <button @click="createParent"
-            class="px-4 py-2 text-sm font-semibold text-white bg-green-500 rounded-md">Save</button>
-          <button @click="closeModal"
-            class="px-4 py-2 ml-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Cancel</button>
+          <div class="flex flex-col mb-4 space-y-3 sm:flex-row sm:space-x-3 sm:mb-0">
+            <div class="w-full sm:w-1/2">
+              <label class="block mb-2 text-sm font-bold text-gray-700">Student Birthday</label>
+              <VueDatePicker v-model="student_birthday" class="w-full px-3 py-2" format="yyyy-MM-dd HH:mm"
+                no-hours-overlay />
+            </div>
+            <div class="w-full sm:w-1/2">
+              <label class="block mb-2 text-sm font-bold text-gray-700">Student Sex</label>
+              <select v-model="student_sex" id="sex" name="student_sex"
+                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="">Other</option>
+              </select>
+            </div>
+          </div>
+          <!-- End of student details -->
+
+          <div class="flex justify-end">
+            <button @click="createParent"
+              class="px-4 py-2 text-sm font-semibold text-white bg-green-500 rounded-md">Save</button>
+            <button @click="closeModal"
+              class="px-4 py-2 ml-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Cancel</button>
+          </div>
         </div>
       </div>
     </div>
-   
-  </div>
 
+  </div>
 </template>
+
 <script setup>
 import * as yup from 'yup'
 import { onMounted, ref } from 'vue'

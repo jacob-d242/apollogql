@@ -1,54 +1,50 @@
-
 <template>
-	<div>
-		<div>
-			<p>Students list</p>
-		</div>
-		<table class="w-3/4 mx-auto border-collapse border border-gray-500">
-  <thead>
-    <tr>
-      <th class="p-2 border border-gray-500">
-        First Name
-      </th>
-      <th class="p-2 border border-gray-500">
-        Last Name
-      </th>
-      <th class="p-2 border border-gray-500">
-        Birthday
-      </th>
-      <th class="p-2 border border-gray-500">
-        Sex
-      </th>
-      <th class="p-2 border border-gray-500">
-        Actions
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="student in studentData" :key="student.id">
-      <td class="p-2 border border-gray-500 whitespace-nowrap">{{ student.first_name }}</td>
-      <td class="p-2 border border-gray-500 whitespace-nowrap">{{ student.last_name }}</td>
-      <td class="p-2 border border-gray-500 whitespace-nowrap">{{ student.birthday }}</td>
-      <td class="p-2 border border-gray-500 whitespace-nowrap">{{ student.sex }}</td>
-      <td class="p-2 border border-gray-500 whitespace-nowrap">
-        <ul>
-          <li v-for="relation in student.relations" :key="relation.id">
-            <p>ID: {{ relation.id }}</p>
-            <p>Status: {{ relation.status }}</p>
-          </li>
-        </ul>
-      </td>
-      <td class="p-2 border border-gray-500">
-        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded-md"
-          @click="handleDelete(index)">
-          Del
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-	</div>
+  <div>
+    <div>
+      <p class="text-center text-xl font-bold">Students list</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full table-auto border-collapse border border-gray-500">
+        <thead>
+          <tr>
+            <th class="p-4 border border-gray-500">First Name</th>
+            <th class="p-4 border border-gray-500">Last Name</th>
+            <th class="p-4 border border-gray-500">Birthday</th>
+            <th class="p-4 border border-gray-500">Sex</th>
+            <th class="p-4 border border-gray-500">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="student in studentData" :key="student.id">
+            <td class="p-4 border border-gray-500 whitespace-nowrap">{{ student.first_name }}</td>
+            <td class="p-4 border border-gray-500 whitespace-nowrap">{{ student.last_name }}</td>
+            <td class="p-4 border border-gray-500 whitespace-nowrap">{{ student.birthday }}</td>
+            <td class="p-4 border border-gray-500 whitespace-nowrap">{{ student.sex }}</td>
+            <td class="p-4 border border-gray-500 whitespace-nowrap">
+              <ul>
+                <li v-for="relation in student.relations" :key="relation.id">
+                  <p class="mb-2">ID: {{ relation.id }}</p>
+                  <p class="mb-2">Status: {{ relation.status }}</p>
+                </li>
+              </ul>
+            </td>
+            <td class="p-4 border border-gray-500">
+              <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md"
+                @click="handleDelete(index)">
+                Del
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
+
+<style>
+/* Add your custom styles here, if needed */
+</style>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 
