@@ -6,24 +6,20 @@
       <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
       <div class="bg-white rounded-lg p-6 sm:w-96 lg:w-max">
         <h2 class="text-lg font-bold mb-4">Create Parent</h2>
-        <div class="flex content-center text-red-600" v-if="errorMsg">
-          <p>
-            {{ errorMsg.value }}
-          </p>
-        </div>
-
-        <!-- Add a wrapper with max-h-screen and overflow-y for scrolling -->
+                <!-- Add a wrapper with max-h-screen and overflow-y for scrolling -->
         <div class="max-h-screen overflow-y-auto">
           <div class="flex flex-col mb-4 space-y-3 sm:flex-row sm:space-x-3 sm:mb-0">
             <div class="w-full sm:w-1/2">
               <label for="firstName" class="block mb-2 text-sm font-bold text-gray-700">First Name</label>
-              <input type="text" v-model="first_name" name="fist_name"
+              <input type="text" v-model="first_name" name="first_name"
                 class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+              <p class="text-red-500" v-if="errors.first_name">{{ errors.first_name }}</p>
             </div>
             <div class="w-full sm:w-1/2">
               <label for="lastName" class="block mb-2 text-sm font-bold text-gray-700">Last Name</label>
               <input type="text" v-model="last_name" name="last_name"
                 class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+              <p class="text-red-500" v-if="errors.last_name">{{ errors.last_name }}</p>
             </div>
           </div>
           <div class="flex flex-col mb-4 space-y-3 sm:flex-row sm:space-x-3 sm:mb-0">
@@ -31,11 +27,13 @@
               <label class="block mb-2 text-sm font-bold text-gray-700">Birthday</label>
               <VueDatePicker v-model="birthday" class="w-full px-3 py-2" format="yyyy-MM-dd HH:mm"
                 no-hours-overlay />
+              <p class="text-red-500" v-if="errors.birthday">{{ errors.birthday }}</p>
             </div>
             <div class="w-full sm:w-1/2">
               <label for="email" class="block mb-2 text-sm font-bold text-gray-700">Email</label>
               <input type="email" v-model="email" name="email"
                 class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+              <p class="text-red-500" v-if="errors.email">{{ errors.email }}</p>
             </div>
           </div>
 
@@ -48,6 +46,7 @@
                 <option value="female">Female</option>
                 <option value="">Other</option>
               </select>
+              <p class="text-red-500" v-if="errors.sex">{{ errors.sex }}</p>
             </div>
 
             <div class="w-full sm:w-1/2">
@@ -59,6 +58,7 @@
                 <option value="teacher">TEACHER</option>
                 <option value="admin">ADMIN</option>
               </select>
+              <p class="text-red-500" v-if="errors.role">{{ errors.role }}</p>
             </div>
           </div>
 
@@ -66,13 +66,15 @@
           <div class="flex flex-col mb-4 space-y-3 sm:flex-row sm:space-x-3 sm:mb-0">
             <div class="w-full sm:w-1/2">
               <label for="firstName" class="block mb-2 text-sm font-bold text-gray-700">Student First Name</label>
-              <input type="text" v-model="student_first_name" name="student_fist_name"
+              <input type="text" v-model="student_first_name" name="student_first_name"
                 class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+              <p class="text-red-500" v-if="errors.student_first_name">{{ errors.student_first_name }}</p>
             </div>
             <div class="w-full sm:w-1/2">
               <label for="lastName" class="block mb-2 text-sm font-bold text-gray-700">Student Last Name</label>
               <input type="text" v-model="student_last_name" name="student_last_name"
                 class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+              <p class="text-red-500" v-if="errors.student_last_name">{{ errors.student_last_name }}</p>
             </div>
           </div>
 
@@ -81,15 +83,17 @@
               <label class="block mb-2 text-sm font-bold text-gray-700">Student Birthday</label>
               <VueDatePicker v-model="student_birthday" class="w-full px-3 py-2" format="yyyy-MM-dd HH:mm"
                 no-hours-overlay />
+              <p class="text-red-500" v-if="errors.student_birthday">{{ errors.student_birthday }}</p>
             </div>
             <div class="w-full sm:w-1/2">
               <label class="block mb-2 text-sm font-bold text-gray-700">Student Sex</label>
-              <select v-model="student_sex" id="sex" name="student_sex"
+              <select v-model="student_sex" id="student_sex" name="student_sex"
                 class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="">Other</option>
               </select>
+              <p class="text-red-500" v-if="errors.student_sex">{{ errors.student_sex }}</p>
             </div>
           </div>
           <!-- End of student details -->
@@ -133,39 +137,53 @@ const student_first_name = ref('')
 const student_last_name = ref('')
 const student_sex = ref('')
 const student_birthday = ref('')
+const errors = ref({})
 const errorMsg = ref("Ensure all fields are filled")
 
-const schema = yup.object({
-  email: yup.string().required(),
-  first_name: yup.string().required(),
-  last_name: yup.string().required(),
-  sex: yup.string().required(),
-  birthday: yup.string().required(),
-  student_first_name: yup.string().required(),
-  student_last_name: yup.string().required(),
-  student_birthday: yup.string().required(),
-  student_sex: yup.string().required()
-})
+const validationSchema = yup.object({
+  email: yup.string().required('Email is required'),
+  first_name: yup.string().required('First name is required'),
+  last_name: yup.string().required('Last name is required'),
+  sex: yup.string().required('Sex is required'),
+  birthday: yup.string().required('Birthday is required'),
+  student_first_name: yup.string().required('Student first name is required'),
+  student_last_name: yup.string().required('Student last name is required'),
+  student_birthday: yup.string().required('Student birthday is required'),
+  student_sex: yup.string().required('Student sex is required')
+});
+
+const validate = async () => {
+  try {
+    await validationSchema.validate({
+      email: email.value,
+      first_name: first_name.value,
+      last_name: last_name.value,
+      sex: sex.value,
+      birthday: birthday.value,
+      student_first_name: student_first_name.value,
+      student_last_name: student_last_name.value,
+      student_birthday: student_birthday.value,
+      student_sex: student_sex.value
+    }, { abortEarly: false });
+
+    errors.value = {};
+  } catch (validationErrors) {
+    const formattedErrors = {};
+    validationErrors.inner.forEach((error) => {
+      formattedErrors[error.path] = error.message;
+    });
+    errors.value = formattedErrors;
+  }
+};
 
 async function createParent() {
-  await schema.validate({
-        email: email.value,
-        first_name: first_name.value,
-        last_name:last_name.value,
-        sex:sex.value,
-        birthday:birthday.value,
-        student_first_name:student_first_name.value,
-        student_last_name: student_last_name.value,
-        student_birthday:student_birthday.value,
-        student_sex:student_sex.value,
-})
+  await validate();
   const query = `
     mutation CreateParent($parent: ParentInput) {
       createParent(parent: $parent) {
         email
         relations {
           status
-         
         }
         students {
           id
@@ -195,67 +213,48 @@ async function createParent() {
         last_name: student_last_name.value,
         birthday: student_birthday.value,
         sex: student_sex.value
-      },
+      }
     }
   };
 
-  try {
-    const response = await fetch('https://att-backend.herokuapp.com/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        query,
-        variables
-      })
-    });
+  // Perform the API call and handle the response
+  const response = await fetch('https://att-backend.herokuapp.com/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ query, variables })
+  });
 
-    const data = await response.json();
-    if (response.ok) {
-      // Data successfully saved to the database
-      console.log('Parent created:', data.data.createParent);
-      // Reset form inputs
-      console.log(variables)
-      email.value = '';
-      first_name.value = '';
-      last_name.value = '';
-      sex.value = '';
-      role.value = '';
-      errorMsg.value = "",
-      console.log(variables)
-      // Close the modal
-      closeModal();
-    } else {
-      // Error occurred while saving data
-      console.log('Error:', data.errors[0].message);
-    }
-  } catch (error) {
-    console.log('Error:', error);
-    errorMsg.value = error.value
+  const { data, errors } = await response.json();
+
+  if (errors) {
+    errorMsg.value = errors[0].message;
+  } else {
+    // Reset the form and close the modal
+    email.value = '';
+    first_name.value = '';
+    last_name.value = '';
+    role.value = '';
+    sex.value = '';
+    birthday.value = '';
+    student_first_name.value = '';
+    student_last_name.value = '';
+    student_sex.value = '';
+    student_birthday.value = '';
+    errors.value = {};
+    errorMsg.value = '';
+    closeModal();
+    // Refresh the parent table data by emitting an event to the parent component
+   // emit('parentCreated');
   }
-}
-
-
-function openModal() {
-  showModal.value = true;
 }
 
 function closeModal() {
   showModal.value = false;
 }
+
+onMounted(() => {
+  showModal.value = true;
+});
 </script>
-
-<style>
-.modal-overlay {
-  z-index: -1;
-}
-
-.modal-container {
-  max-height: 90%;
-}
-
-.modal-content {
-  max-height: calc(100vh - 120px);
-}
-</style>

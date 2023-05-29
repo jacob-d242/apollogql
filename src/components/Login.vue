@@ -23,7 +23,7 @@
           <div class="pb-1 pt-1 flex space-x-3  text-center">
             <button class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-lg bg-red-700 text-white"
               type="button"    
-              @click="cancelLogin"
+              @click="closeLoginModal"
             >
               Close
             </button>

@@ -1,10 +1,10 @@
 <template>
-    <div class="modal">
-      <div class="modal-content">
-        <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
-        <h2>Logout Confirmation</h2>
-        <p>Are you sure you want to logout?</p>
-        <div class="modal-buttons">
+  <div class="modal">
+    <div class="modal-content">
+      <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
+      <h2>Logout Confirmation</h2>
+      <p>Are you sure you want to logout?</p>
+      <div class="modal-buttons">
         <button @click="cancelLogout" class="bg-green-700">Cancel</button>
         <button @click="confirmLogout" class="bg-red-600" :disabled="loading">
           <template v-if="loading">
@@ -15,36 +15,42 @@
           </template>
         </button>
       </div>
-      </div>
     </div>
-  </template>
-  
-  <script setup>
-  import {ref} from 'vue'
-  import router from "../router";
-      const loading = ref(false)
-     const  cancelLogout = () => {
-       this.$emit('close')
-      }
-      const confirmLogout = async () => {
-          try {
-            loading.value = true;
-            localStorage.removeItem('token');
-            await logoutRequest();
-            router.push("/");
-          } catch (error) {
-            console.error(error);
-          } finally {
-            loading.value = false;
-          }
-      };
-      const logoutRequest = async () => {
-        // Simulating an asynchronous logout request
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-      };
-  </script>
-  
-  <style scoped>
+  </div>
+</template>
+
+<script setup>
+import { ref, getCurrentInstance } from 'vue';
+import router from "../router";
+import { inject } from 'vue';
+
+const closeLogoutModal = inject('closeLogoutModal');
+
+const cancelLogout = () => {
+  closeLogoutModal();
+};
+const loading = ref(false);
+
+const confirmLogout = async () => {
+  try {
+    loading.value = true;
+    localStorage.removeItem('token');
+    await logoutRequest();
+    router.push("/");
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const logoutRequest = async () => {
+  // Simulating an asynchronous logout request
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+};
+</script>
+
+<style scoped>
 .modal {
   position: fixed;
   top: 0;
@@ -97,4 +103,3 @@ button {
   border: none;
 }
 </style>
-  

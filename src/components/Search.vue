@@ -1,68 +1,173 @@
 <template>
-  <div class="relative">
+  <div class="search-container">
     <input
       type="text"
-      class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      v-model="userInput"
+      :class="{ 'input-error': errorMessage }"
+      class="search-input"
       placeholder="Search..."
-      v-model="id"
-    />
-    <button
-      class="absolute right-0 top-0 bg-green-500 text-white px-3 py-2 rounded-md"
-      @click="handleSearch"
     >
-      <Icon icon="ic:baseline-search" width="30" height="25" />
-    </button>
+    <button @click="search" class="bg-green-700 px-3 py-1 rounded-sm">Search</button>
+    <div v-if="loading">Loading...</div>
+    <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div class="dropdown" v-if="results && results.length > 0">
+      <h2>Results:</h2>
+      <ul>
+        <li v-for="result in results" :key="result.id">
+          {{ result.first_name }} {{ result.last_name }}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { Icon } from '@iconify/vue';
+import * as Yup from 'yup';
 
-const id = ref('');
+const userInput = ref('');
+const results = ref([]);
+const loading = ref(false);
+const errorMessage = ref('');
 
-const handleSearch = async () => {
-  const idValue = parseInt(id.value);
+const searchParentByName = async (name) => {
   const query = `
-    query Query($studentByIdId: Int!) {
-      studentById(id: $studentByIdId) {
-        id
+    query SearchUserByName($name: String) {
+      searchParentByName(name: $name) {
         first_name
         last_name
-        birthday
-        sex
-        profile {
-
-        }
-        parent {
-
-        }
-        relations {
-
-        }
       }
     }
   `;
 
   const variables = {
-    studentByIdId: idValue,
+    name,
   };
 
+  const response = await fetch('https://att-backend.herokuapp.com/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (data.errors) {
+    throw new Error(data.errors[0].message);
+  }
+
+  const parentResults = data.data.searchParentByName;
+
+  console.log('Parent Results:', parentResults);
+
+  return parentResults;
+};
+
+const searchStudentByName = async (name) => {
+  const query = `
+    query SearchUserByName($name: String) {
+      searchStudentByName(name: $name) {
+        first_name
+        last_name
+      }
+    }
+  `;
+
+  const variables = {
+    name,
+  };
+
+  const response = await fetch('https://att-backend.herokuapp.com/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (data.errors) {
+    throw new Error(data.errors[0].message);
+  }
+
+  const studentResults = data.data.searchStudentByName;
+
+  console.log('Student Results:', studentResults);
+
+  return studentResults;
+};
+
+const search = async () => {
+  loading.value = true;
+  errorMessage.value = '';
+
   try {
-    const response = await fetch('https://att-backend.herokuapp.com/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query,
-        variables,
-      }),
-    });
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.log(error);
+    const schema = Yup.string().required('Input is required');
+    await schema.validate(userInput.value);
+
+    const parentResults = await searchParentByName(userInput.value);
+    const studentResults = await searchStudentByName(userInput.value);
+
+    results.value = [...parentResults, ...studentResults];
+
+    if (results.value.length === 0) {
+      errorMessage.value = 'No matching records found.';
+    }
+  } catch (err) {
+    errorMessage.value = err.message;
+    console.error(err);
+  } finally {
+    loading.value = false;
   }
 };
 </script>
+
+<style>
+.search-container {
+  position: relative;
+}
+
+.search-input {
+  border: 1px solid #ccc;
+  width: 300px;
+  height: 30px;
+  padding: 4px 8px;
+}
+.dropdown {
+  position: absolute;
+  z-index: 9999;
+  top: 100%;
+  left: 0;
+  width: 400px; /* Adjust the width as needed */
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 8px;
+}
+
+.dropdown ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown li {
+  margin-bottom: 8px;
+}
+
+.error-message {
+  color: red;
+}
+
+.input-error {
+  border-color: red;
+}
+</style>

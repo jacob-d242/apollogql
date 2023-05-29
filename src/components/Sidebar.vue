@@ -25,7 +25,7 @@
 		</button>
 	  </div>
 	</aside>
-	<LogoutModal v-if="showLogoutModal" @close="closeLogoutModal"/>
+	<LogoutModal v-if="showLogoutModal" :close-logout-modal="closeLogoutModal"/>
   </template>
   
   <script setup>
@@ -47,6 +47,7 @@ const openLogoutModal = () => {
 const closeLogoutModal = () => {
   showLogoutModal.value = false;
 };
+
   </script>
   
   <style lang="scss" scoped>
