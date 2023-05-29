@@ -8,55 +8,47 @@
             <p class="mb-4">Please Login below to proceed</p>
             <div class="relative mb-2">
               <label class="block text-sm font-medium leading-6 text-gray-900">Username</label>
-              <input
-                type="text"
-                name="username"
-                v-model="username"
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6"
-              />
+              <input type="text" name="username" v-model="username"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6" />
             </div>
             <span class="text-red-500">{{ errors.username }}</span>
             <div class="relative mb-2">
               <label class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-              <input
-                name="password"
-                type="password"
-                v-model="password"
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6"
-              />
+              <input name="password" type="password" v-model="password"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6" />
             </div>
             <span class="text-red-500">{{ errors.password }}</span>
-            <div class="pb-1 pt-1 text-center">
-              <button
-    class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-lg bg-green-700 text-white"
-    type="submit"
-    :disabled="loading"
-  >
-    <span v-if="loading" class="mr-2">
-      <svg class="animate-spin h-4 w-4 inline-block" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path
-          class="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-1.647z"
-        ></path>
-      </svg>
-    </span>
-    <span v-else>Sign In</span>
-  </button>
-            </div>
+            
           </form>
+          <div class="pb-1 pt-1 flex space-x-3  text-center">
+            <button class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-lg bg-red-700 text-white"
+              type="button"    
+              @click="cancelLogin"
+            >
+              Close
+            </button>
+              <button class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-lg bg-green-700 text-white"
+                type="submit" @click="handleLogin" :disabled="loading">
+                <span v-if="loading" class="mr-2">
+                  <svg class="animate-spin h-4 w-4 inline-block" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-1.647z">
+                    </path>
+                  </svg>
+                </span>
+                <span v-else>Sign In</span>
+              </button>
+            </div>
           <div class="sm:flex sm:justify-center sm:mb-4 sm:items-center">
             <p class="text-center mb-2 sm:mb-0">Forgot password?</p>
             <button class="text-green-700" @click="showModal = !showModal">Reset</button>
           </div>
           <div v-if="showModal" class="mb-4 justify-center items-center">
             <form class="flex flex-col space-2" @submit.prevent="handleReset">
-              <input
-                v-model="email"
+              <input v-model="email"
                 class="block mb-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                type="text"
-              />
+                type="text" />
               <button type="submit" class="bg-green-700 rounded-sm">Reset</button>
             </form>
           </div>
@@ -67,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref,toRef } from "vue";
+import { ref, toRef } from "vue";
 import { defineProps } from "vue";
 import { userAuthStore } from "../store/Auth";
 import { useRouter } from "vue-router";
@@ -81,6 +73,11 @@ const email = ref("");
 const authStore = userAuthStore();
 const router = useRouter();
 const loading = ref(false)
+
+
+const  cancelLogin = () => {
+       this.$emit('close')
+  }
 
 const validationSchema = yup.object({
   username: yup.string().required("Username is required"),
@@ -107,7 +104,7 @@ async function validate() {
 }
 
 async function handleLogin() {
-  loading.value= true
+  loading.value = true
   await validate();
 
   const query = `
@@ -191,5 +188,6 @@ async function handleReset() {
 const props = defineProps({
   open: Boolean,
 });
+const emits = ["close"];
 const isAuthenticated = toRef(authStore, 'isAuthenticated');
 </script>

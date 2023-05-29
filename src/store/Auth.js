@@ -4,22 +4,23 @@ export const userAuthStore = defineStore({
   id: 'userAuthStore',
   state: () => ({
     user: null,
-    isAuthenticated: false
+    loggedIn: false
   }),
+  getters: {
+    getUser: (state) => state.user,
+    isAuthenticated: (state) => state.loggedIn,
+    isLoggedIn: (state) => state.user !== null && state.loggedIn
+  },
   actions: {
     Login(user) {
       this.user = user;
-      this.isAuthenticated = true;
+      this.loggedIn = true;
     },
     Logout() {
       this.user = null;
-      this.isAuthenticated = false;
+      this.loggedIn = false;
       localStorage.removeItem('token');
     }
   },
-  getters: {
-    getUser: state => state.user,
-    isAuthenticated: state => state.isAuthenticated,
-    isLoggedIn: state => state.user !== null && state.isAuthenticated
-  }
 });
+

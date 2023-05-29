@@ -14,39 +14,39 @@
 		  <span><Icon icon="system-uicons:files-stack" width="20" /></span>
 		  <!-- <span class="text-sm ml-2">Students</span> -->
 		</router-link>
-		<router-link to="/add" class="button">
-		  <span><Icon icon="mingcute:user-add-line" width="20" /></span>
-		  <!-- <span class="text-sm ml-2">Profiles</span> -->
-		</router-link>
+		
 	  </div>
   
 	  <div class="flex"></div>
   
 	  <div class="menu">
-		<router-link to="/settings" class="button">
-		  <span><Icon icon="mdi:user-circle-outline" width="20" /></span>
-		  <!-- //<span class="text-sm ml-2">Profile</span> -->
-		</router-link>
-	  </div>
-  
-	  <!-- <div class="menu-toggle-wrap">
-		<button class="menu-toggle" @click="ToggleMenu">
-		  <span class="material-icons">chevron_left</span>
+		<button @click="openLogoutModal" class="button">
+			<span><Icon icon="mdi:user-circle-outline" width="20" /></span>
 		</button>
-	  </div> -->
+	  </div>
 	</aside>
+	<LogoutModal v-if="showLogoutModal" @close="closeLogoutModal"/>
   </template>
   
   <script setup>
   import { ref } from 'vue'
   import { Icon } from '@iconify/vue';
-  
+  import LogoutModal from "./LogoutModal.vue"
   const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
   
   const ToggleMenu = () => {
 	is_expanded.value = !is_expanded.value
 	localStorage.setItem("is_expanded", is_expanded.value)
   }
+  const showLogoutModal = ref(false);
+
+const openLogoutModal = () => {
+  showLogoutModal.value = true;
+};
+
+const closeLogoutModal = () => {
+  showLogoutModal.value = false;
+};
   </script>
   
   <style lang="scss" scoped>

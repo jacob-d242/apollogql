@@ -51,6 +51,9 @@ async function fetchData() {
         students {
           id
           first_name
+          birthday
+          last_name
+          sex
         }
       }
     }
