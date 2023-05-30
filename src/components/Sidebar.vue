@@ -8,7 +8,7 @@
 		<router-link to="/students" class="button">
 		  <span><Icon icon="mdi:user-group-outline" width="20" /></span>
 		</router-link>
-		<router-link to="/profiles" class="button">
+		<router-link to="/users" class="button">
 		  <span><Icon icon="system-uicons:files-stack" width="20" /></span>
 		</router-link>
 		

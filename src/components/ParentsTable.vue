@@ -29,12 +29,6 @@
 			  >
 				Relation
 			  </button>
-			  <button
-				class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 sm:py-2 px-1 sm:px-2 rounded-md text-xs sm:text-sm"
-				@click="deleteParent"
-			  >
-				Delete
-			  </button>
 			</td>
 		  </tr>
 		</tbody>
@@ -87,22 +81,6 @@
 	if (!props.parentData) {
 	  return [];
 	}
-	function deleteParent() {
-  if (selectedItem.value) {
-    // Perform the delete operation based on your requirement
-    // For example, you can use an API call to delete the item from the server-side
-  
-    // After successful deletion, remove the item from the parentData array
-    const index = props.parentData.findIndex((parent) => parent.id === selectedItem.value.id);
-    if (index !== -1) {
-      props.parentData.splice(index, 1);
-    }
-  
-    // Close the modal after deletion
-    toggleModal(null);
-  }
-}
-
 	totalParents = props.parentData.length;
   
 	const startIndex = (currentPage.value - 1) * itemsPerPage;
@@ -126,7 +104,6 @@
   
   <style scoped>
   @media (max-width: 640px) {
-	/* Styles for smaller screens */
 	table {
 	  font-size: 12px;
 	}

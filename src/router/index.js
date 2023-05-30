@@ -25,7 +25,7 @@ const router = createRouter({
 			
 		},
 		{
-			path: '/profiles',
+			path: '/users',
 			component: Profile,
 			meta:{requiresAuth:true}
 		},

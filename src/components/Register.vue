@@ -73,7 +73,8 @@
 
               <div class="relative">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Birthday</label>
-                <VueDatePicker v-model="birthday" no-hours-overlay />
+                <VueDatePicker v-model="birthday" class="w-full " format="yyyy-MM-dd HH:mm"
+                no-hours-overlay />
                 <span v-if="errors.birthday" class="block text-sm font-medium leading-6 text-red-500">
                   {{ errors.birthday }}
                 </span>

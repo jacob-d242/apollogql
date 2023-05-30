@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div>
-      <p class="text-center text-xl font-bold">Students list</p>
+    <div class="text-center">
+      <img class="mx-auto w-28" src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+        alt="logo" />
+      <h4 class="mb-4 mt-1 pb-1 text-xl font-semibold">
+        All Students
+      </h4>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full table-auto border-collapse border border-gray-500">
@@ -11,7 +15,6 @@
             <th class="p-2 border border-gray-500">Last Name</th>
             <th class="p-2 border border-gray-500">Birthday</th>
             <th class="p-2 border border-gray-500">Sex</th>
-            <th class="p-2 border border-gray-500">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -20,14 +23,6 @@
             <td class="p-2 border border-gray-500 whitespace-nowrap">{{ student.last_name }}</td>
             <td class="p-2 border border-gray-500 whitespace-nowrap">{{ formatDate(student.birthday) }}</td>
             <td class="p-2 border border-gray-500 whitespace-nowrap">{{ student.sex }}</td>
-            <td class="p-2 border border-gray-500 whitespace-nowrap">
-              <ul>
-                <li v-for="relation in student.relations" :key="relation.id">
-                  <p class="mb-2">ID: {{ relation.id }}</p>
-                  <p class="mb-2">Status: {{ relation.status }}</p>
-                </li>
-              </ul>
-            </td>
           </tr>
         </tbody>
       </table>
