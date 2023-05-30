@@ -1,6 +1,6 @@
 <template>
 	<div class="overflow-x-auto">
-	  <table class="w-full mx-auto border-collapse border border-gray-500">
+	  <table class="w-lg mx-auto border-collapse border border-gray-500">
 		<thead>
 		  <tr>
 			<th class="p-1 sm:p-2 border border-gray-500 text-xs sm:text-sm">First Name</th>

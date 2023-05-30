@@ -5,8 +5,8 @@
       <h2>Logout Confirmation</h2>
       <p>Are you sure you want to logout?</p>
       <div class="modal-buttons">
-        <button @click="cancelLogout" class="bg-green-700">Cancel</button>
-        <button @click="confirmLogout" class="bg-red-600" :disabled="loading">
+        <button @click="cancelLogout" class="bg-green-700 text-white">Cancel</button>
+        <button @click="confirmLogout" class="bg-red-600 text-white" :disabled="loading">
           <template v-if="loading">
             <span>Loading...</span>
           </template>
@@ -22,13 +22,13 @@
 <script setup>
 import { ref, getCurrentInstance } from 'vue';
 import router from "../router";
-import { inject } from 'vue';
 
-const closeLogoutModal = inject('closeLogoutModal');
 
+const emit = defineEmits(['update', 'close'])
 const cancelLogout = () => {
-  closeLogoutModal();
+  emit("close")
 };
+
 const loading = ref(false);
 
 const confirmLogout = async () => {

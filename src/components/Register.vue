@@ -5,8 +5,11 @@
       <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
       <div class="px-4 md:px-0">
         <div class="md:mx-6 mt-5">
+          <div class="flex mb-4 items-center justify-between">
+              <p class="mr-auto">Please create your account</p>
+              <button class="ml-auto" @click="closeLoginModal">close</button>
+            </div>
           <form @submit.prevent="handleSubmit">
-            <p class="mb-4">Please create your account</p>
             <div class="relative mb-2">
               <label class="block text-sm font-medium leading-6 text-gray-900">Username</label>
               <input
@@ -132,17 +135,10 @@ import Login from './Login.vue';
 import * as yup from 'yup'
 
 components: { VueDatePicker }
-// show login modal
-const showLoginModal = ref(false);
-
-const openLoginModal = () => {
-  showLoginModal.value = true;
-};
-
+const emit = defineEmits(['update', 'close'])
 const closeLoginModal = () => {
-  showLoginModal.value = false;
+  emit("close")
 };
-// end
 const username = ref('')
 const first_name = ref('')
 const last_name = ref('')

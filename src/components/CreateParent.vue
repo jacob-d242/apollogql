@@ -98,7 +98,7 @@
           </div>
           <!-- End of student details -->
 
-          <div class="flex justify-end">
+          <div class="flex justify-end mt-6">
             <button @click="createParent"
               class="px-4 py-2 text-sm font-semibold text-white bg-green-500 rounded-md">Save</button>
             <button @click="closeModal"

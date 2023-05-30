@@ -4,15 +4,12 @@
 	  <div class="menu">
 		<router-link to="/dashboard" class="button">
 		  <span><Icon icon="material-symbols:home-outline" width="20" /></span>
-		  <!-- <span class="text-sm ml-2">Home</span> -->
 		</router-link>
 		<router-link to="/students" class="button">
 		  <span><Icon icon="mdi:user-group-outline" width="20" /></span>
-		  <!-- <span class="text-sm ml-2">Parents</span> -->
 		</router-link>
 		<router-link to="/profiles" class="button">
 		  <span><Icon icon="system-uicons:files-stack" width="20" /></span>
-		  <!-- <span class="text-sm ml-2">Students</span> -->
 		</router-link>
 		
 	  </div>
@@ -25,7 +22,7 @@
 		</button>
 	  </div>
 	</aside>
-	<LogoutModal v-if="showLogoutModal" :close-logout-modal="closeLogoutModal"/>
+	<LogoutModal v-if="showLogoutModal" :close-logout-modal="closeLogoutModal" @close="closeLogoutModal"/>
   </template>
   
   <script setup>
@@ -38,12 +35,15 @@
 	is_expanded.value = !is_expanded.value
 	localStorage.setItem("is_expanded", is_expanded.value)
   }
-  const showLogoutModal = ref(false);
+
+const showLogoutModal = ref(false);
 
 const openLogoutModal = () => {
   showLogoutModal.value = true;
 };
-
+const update = (e)=>{
+	console.log(e)
+}
 const closeLogoutModal = () => {
   showLogoutModal.value = false;
 };

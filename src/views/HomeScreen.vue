@@ -62,6 +62,7 @@ const showRegisterModal = ref(false);
 
 const openLoginModal = () => {
   showLoginModal.value = true;
+  showRegisterModal.value = false;
 };
 
 const closeLoginModal = () => {
@@ -70,6 +71,7 @@ const closeLoginModal = () => {
 
 const openRegisterModal = () => {
   showRegisterModal.value = true;
+  showLoginModal.value = false;
 };
 
 const closeRegisterModal = () => {

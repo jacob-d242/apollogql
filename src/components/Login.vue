@@ -9,13 +9,13 @@
             <div class="relative mb-2">
               <label class="block text-sm font-medium leading-6 text-gray-900">Username</label>
               <input type="text" name="username" v-model="username"
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6" />
+                class="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6" />
             </div>
             <span class="text-red-500">{{ errors.username }}</span>
             <div class="relative mb-2">
               <label class="block text-sm font-medium leading-6 text-gray-900">Password</label>
               <input name="password" type="password" v-model="password"
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6" />
+                class="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6" />
             </div>
             <span class="text-red-500">{{ errors.password }}</span>
             
@@ -47,9 +47,9 @@
           <div v-if="showModal" class="mb-4 justify-center items-center">
             <form class="flex flex-col space-2" @submit.prevent="handleReset">
               <input v-model="email"
-                class="block mb-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6"
+              class="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6"
                 type="text" />
-              <button type="submit" class="bg-green-700 rounded-sm">Reset</button>
+              <button type="submit" class="mt-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-lg bg-green-700 text-white">Reset</button>
             </form>
           </div>
         </div>
@@ -75,9 +75,10 @@ const router = useRouter();
 const loading = ref(false)
 
 
-const  cancelLogin = () => {
-       this.$emit('close')
-  }
+const emit = defineEmits(['update', 'close'])
+const closeLoginModal = () => {
+  emit("close")
+};
 
 const validationSchema = yup.object({
   username: yup.string().required("Username is required"),
