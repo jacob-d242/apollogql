@@ -55,7 +55,7 @@ router.beforeEach((to,from,next)=>{
 	if(to.matched.some(record => record.meta.requiresAuth)){
 		const token =localStorage.getItem('token')
 		if(!token){
-			next({path:'/login'})
+			next({path:'/'})
 		}else {
 			next()
 		}

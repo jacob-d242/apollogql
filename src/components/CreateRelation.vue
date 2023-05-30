@@ -4,132 +4,179 @@
     <div class="modal-container bg-white w-4/5 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
       <div class="modal-content py-4 px-6">
         <div v-if="parentData">
-          <div class="relative mb-2">
-            
-            <div class=" px-3 py-2 mt-1 bg-white">
-              Parent First Name :{{ parentData.first_name }}
+          <div class="mb-2">
+            <div class="px-3 py-2 mt-1 bg-white text-black">
+              Parent Name: {{ parentData.first_name }} {{ parentData.last_name }}
             </div>
           </div>
-          <div class="relative mb-2">
-            <div class=" px-3 py-2 mt-1 bg-white">
-              Student Last Name :{{ parentData.last_name }}
-            </div>
-          </div>
-          <div class="relative mb-2">            
-            <div class=" px-3 py-2 mt-1 bg-white">
-            Parent Email :{{ parentData.email }}
-            </div>
-          </div>
-          <div class="relative mb-2">            
-            <div class=" px-3 py-2 mt-1 bg-white">
-              Role:{{ parentData.role }}
-            </div>
-          </div>
-          <div class="relative mb-2">            
-            <div class=" px-3 py-2 mt-1 bg-white">
-              Sex :{{ parentData.sex }}
-            </div>
-          </div>
-          <h3>Students:</h3>
+          <h3 class="mb-2">Existing Students:</h3>
           <ul>
-            <li v-for="student in parentData.students" :key="student.id">
-              First Name : {{ student.first_name }} {{ student.last_name }}
-              birthday:{{ student.birthday }}
+            <li v-for="student in parentData.students" :key="student.id" class="mb-2">
+              <div class="px-3 py-2 mt-1 bg-white">
+                First Name: {{ student.first_name }} {{ student.last_name }}
+              </div>
             </li>
           </ul>
+        </div>
+        <div class="mb-2" v-if="isNewStudent">
+          <label class="block text-sm font-medium leading-6 text-gray-900">First Name</label>
+          <input
+            v-model="relation.student.first_name"
+            type="text"
+            class="input-field w-full"
+            placeholder="First Name"
+          />
+        </div>
+        <div class="mb-2" v-if="isNewStudent">
+          <label class="block text-sm font-medium leading-6 text-gray-900">Last Name</label>
+          <input
+            v-model="relation.student.last_name"
+            type="text"
+            class="input-field w-full"
+            placeholder="Last Name"
+          />
+        </div>
+        <div class="mb-2" v-if="isNewStudent">
+          <label class="block text-sm font-medium leading-6 text-gray-900">Birthday</label>
+          <VueDatePicker v-model="relation.student.birthday" no-hours-overlay class="input-field w-full" />
+        </div>
+        <div class="mb-2" v-if="isNewStudent">
+          <label class="block text-sm font-medium leading-6 text-gray-900">Sex</label>
+          <select v-model="relation.student.sex" id="student_sex" name="student_sex"
+            class="input-field w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="">Other</option>
+          </select>
+        </div>
+        <div class="relative mb-2" v-if="!isNewStudent">
+          <label class="block text-sm font-medium leading-6 text-gray-900">Existing Student</label>
+          <select
+            v-model="relation.student.id"
+            class="input-field w-full"
+          >
+            <option value="" disabled>Select Student</option>
+            <option v-for="student in parentData.students" :key="student.id" :value="student.id">
+              {{ student.first_name }} {{ student.last_name }}
+            </option>
+          </select>
         </div>
         <div class="relative mb-2">
           <label class="block text-sm font-medium leading-6 text-gray-900">Status</label>
           <input
+            v-model="relation.status"
             type="text"
-            v-model="status"
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6"
+            class="input-field w-full"
             placeholder="Status"
           />
         </div>
-        <div class="flex flex-row justify-center py-4 space-x-5">
+        <div class="flex justify-center py-4 space-x-5">
+          <button @click="toggleStudentType" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            {{ isNewStudent ? 'Use Existing Student' : 'Create New Student' }}
+          </button>
           <button @click="closeModal" class="bg-green-700 text-white font-bold py-2 px-4 rounded">Close</button>
           <button @click="createRelationship" class="bg-green-700 text-white font-bold py-2 px-4 rounded">Add</button>
         </div>
-        
       </div>
     </div>
   </div>
 </template>
 
 
+
 <script setup>
-import {ref} from 'vue'
-import { array } from 'yup';
-const isModalOpen = ref(true)
-const status = ref("")
-function  closeModal(){
-    isModalOpen.value = false
+import { ref, defineProps } from 'vue';
+import VueDatePicker from '@vuepic/vue-datepicker';
+const isModalOpen = ref(true);
+const format = (date) => {
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+
+  return `${day}/${month}/${year}`
 }
-function openModal(){
-    isModalOpen.value = true
+const relation = ref({
+  student: {
+    first_name: '',
+    last_name: '',
+    birthday: '',
+    sex: '',
+  },
+  status: '',
+});
+
+const props = defineProps({
+  parentData: {
+    type: Object,
+    required: true,
+  },
+});
+
+const isNewStudent = ref(false);
+const parentData = ref(props.parentData);
+const error = ref(null);
+
+function toggleModal(parent) {
+  parentData.value = parent;
+  isModalOpen.value = !isModalOpen.value;
 }
-const parentData = ref({
-  first_name: "",
-  last_name: "",
-  birthday: "",
-  sex: "",
-})
-async function createRelationship(){
-      const query=`
-          mutation Mutation($relation: ParentRelation) {
-            createRelationship(relation: $relation) {
-              first_name
-              last_name
-              id
-              relations {
-                status
-                id
-              }
-              role
-              sex
-              students {
-                first_name
-              }
-              email
-            }
-          }
-    `
+
+function toggleStudentType() {
+  isNewStudent.value = !isNewStudent.value;
+}
+
+function closeModal() {
+  isModalOpen.value = false;
+}
+
+async function createRelationship() {
+  try {
     const variables = {
       relation: {
-        status: status.value,
-        student: {
-          first_name: parentData.value.first_name,
-          last_name: parentData.value.last_name,
-          birthday: parentData.value.birthday,
-          sex: parentData.value.sex,
-        },
+        ...relation.value,
+        parent_id: Number(parentData.value.id),
       },
-    }
-    try {
-      const res = await fetch("https://att-backend.herokuapp.com/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                query,
-                variables,
-            }),
-      });
-      const data = await res.json()
-      console.log(variables)
+    };
 
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const props = defineProps({
-    parentData: {
-        type: Object,
-        required: true,
+    const query = `
+      mutation CreateRelationship($relation: ParentRelation) {
+        createRelationship(relation: $relation) {
+          first_name
+          last_name
+          id
+          relations {
+            status
+            id
+          }
+          role
+          sex
+          students {
+            first_name
+            last_name
+            birthday
+          }
+          email
+        }
+      }
+    `;
+
+    const response = await fetch('https://att-backend.herokuapp.com/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-})
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    });
+
+    // Handle the response as needed
+  } catch (error) {
+    console.error('Error:', error);
+    error.value = error.message;
+  }
+}
 </script>
 
 <style>
@@ -144,6 +191,7 @@ async function createRelationship(){
 .modal-content {
   max-height: calc(100vh - 120px);
 }
+
 .input-field {
   border: 1px solid #ccc;
   padding: 0.5rem;
@@ -158,5 +206,9 @@ async function createRelationship(){
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+
+.text-red-500 {
+  color: #f56565;
 }
 </style>
