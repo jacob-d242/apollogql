@@ -1,25 +1,24 @@
 <template>
-  <div class="search-container">
+  <div class="search-container m-2">
     <input
       type="text"
       v-model="userInput"
-      :class="{ 'input-error': errorMessage }"
-      class="search-input"
+      :class="{ 'border-red-500': errorMessage }"
+      class="search-input border-2 border-gray-300 px-3 py-5 rounded-md"
       placeholder="Search..."
     >
-    <button @click="search" class="bg-green-700 px-3 py-1 rounded-sm">Search</button>
-    <div v-if="loading">Loading...</div>
-    <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <button @click="search" class="bg-green-700 px-3 py-3 rounded-md text-white">Search</button>
+    <div v-if="loading" class="mt-2">Loading...</div>
+    <div v-if="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</div>
     <div class="dropdown" v-if="results && results.length > 0">
-      <h2>Results:</h2>
+      <h2 class="text-lg font-semibold">Results:</h2>
       <ul>
-        <li v-for="result in results" :key="result.id">
-          {{ result.first_name }} {{ result.last_name }}
-        </li>
+        <li v-for="result in results" :key="result.id" class="mt-2">{{ result.first_name }} {{ result.last_name }}</li>
       </ul>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue';
@@ -130,7 +129,6 @@ const search = async () => {
   }
 };
 </script>
-
 <style>
 .search-container {
   position: relative;
@@ -142,6 +140,7 @@ const search = async () => {
   height: 30px;
   padding: 4px 8px;
 }
+
 .dropdown {
   position: absolute;
   z-index: 9999;
