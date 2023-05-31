@@ -3,7 +3,10 @@
     <nav class="navbar fixed top-0 left-0 right-0 z-10 py-4">
       <div class="container mx-auto flex items-center justify-between">
         <div class="flex items-center">
-          <h1 class="text-2xl font-bold text-gray-800">School Record Management</h1>
+          <div class="text-center">
+          <img class="mx-auto w-28" src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+            alt="logo" />
+        </div>
         </div>
         <div class="flex items-center">
           <button

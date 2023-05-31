@@ -5,7 +5,7 @@
       <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
       <div class="px-4 md:px-0">
         <div class="md:mx-6 mt-5">
-          <div class="flex mb-4 items-center justify-between">
+          <div class="flex mb-4 px-4 py-3 items-center justify-between">
               <p class="mr-auto">Please create your account</p>
               <button class="ml-auto" @click="closeLoginModal">close</button>
             </div>

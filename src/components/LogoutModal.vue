@@ -1,7 +1,12 @@
 <template>
   <div class="modal">
+
     <div class="modal-content">
       <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
+      <div class="flex items-center">
+          <img class="mx-auto w-20" src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+            alt="logo" />
+      </div>
       <h2>Logout Confirmation</h2>
       <p>Are you sure you want to logout?</p>
       <div class="modal-buttons">

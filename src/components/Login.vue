@@ -3,9 +3,15 @@
     <div class="modal max-w-md rounded-lg bg-gray-200 m-5 sm:m-auto flex items-center justify-center">
       <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
       <div class="px-4 md:px-0">
+        <div class="text-center">
+          <img class="mx-auto w-28" src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+            alt="logo" />
+          <h4 class="mb-4 mt-1 pb-1  ">
+            Please Login below to proceed
+          </h4>
+        </div>
         <div class="md:mx-6 mt-5">
           <form @submit.prevent="handleLogin">
-            <p class="mb-4">Please Login below to proceed</p>
             <div class="relative mb-2">
               <label class="block text-sm font-medium leading-6 text-gray-900">Username</label>
               <input type="text" name="username" v-model="username"
@@ -18,28 +24,26 @@
                 class="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6" />
             </div>
             <span class="text-red-500">{{ errors.password }}</span>
-            
+
           </form>
           <div class="pb-1 pt-1 flex space-x-3  text-center">
             <button class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-lg bg-red-700 text-white"
-              type="button"    
-              @click="closeLoginModal"
-            >
+              type="button" @click="closeLoginModal">
               Close
             </button>
-              <button class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-lg bg-green-700 text-white"
-                type="submit" @click="handleLogin" :disabled="loading">
-                <span v-if="loading" class="mr-2">
-                  <svg class="animate-spin h-4 w-4 inline-block" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-1.647z">
-                    </path>
-                  </svg>
-                </span>
-                <span v-else>Sign In</span>
-              </button>
-            </div>
+            <button class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-lg bg-green-700 text-white"
+              type="submit" @click="handleLogin" :disabled="loading">
+              <span v-if="loading" class="mr-2">
+                <svg class="animate-spin h-4 w-4 inline-block" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-1.647z">
+                  </path>
+                </svg>
+              </span>
+              <span v-else>Sign In</span>
+            </button>
+          </div>
           <div class="sm:flex sm:justify-center sm:mb-4 sm:items-center">
             <p class="text-center mb-2 sm:mb-0">Forgot password?</p>
             <button class="text-green-700" @click="showModal = !showModal">Reset</button>
@@ -47,9 +51,10 @@
           <div v-if="showModal" class="mb-4 justify-center items-center">
             <form class="flex flex-col space-2" @submit.prevent="handleReset">
               <input v-model="email"
-              class="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                class="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 sm:text-sm sm:leading-6"
                 type="text" />
-              <button type="submit" class="mt-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-lg bg-green-700 text-white">Reset</button>
+              <button type="submit"
+                class="mt-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-lg bg-green-700 text-white">Reset</button>
             </form>
           </div>
         </div>
